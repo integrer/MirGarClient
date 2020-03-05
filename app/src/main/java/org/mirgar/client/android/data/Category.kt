@@ -12,4 +12,8 @@ import androidx.room.PrimaryKey
         childColumns = ["super_id"],
         parentColumns = ["id"])]
 )
-data class Category(@PrimaryKey val id: Long, val title: String, @ColumnInfo(name = "super_id") val superId: Long?)
+data class Category(
+    @PrimaryKey val id: Long,
+    val title: String,
+    @ColumnInfo(name = "super_id") val superId: Long?,
+    val checksum: ByteArray)
