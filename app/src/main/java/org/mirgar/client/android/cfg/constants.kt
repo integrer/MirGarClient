@@ -8,3 +8,9 @@ class Joomla(val host: String, val useSsl: Boolean, val apiPluginName: String) {
         fun release() = Joomla("mirgar.ga", true, API_PLUGIN_NAME)
     }
 }
+
+class DB {
+    companion object {
+        const val NAME: String = "mirgar-db"
+    }
+}
