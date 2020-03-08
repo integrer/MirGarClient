@@ -7,6 +7,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 import org.mirgar.client.android.cfg.DB
+import org.mirgar.client.android.data.dao.CategoryDao
+import org.mirgar.client.android.data.entity.Category
 
 @Database(entities = [Category::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

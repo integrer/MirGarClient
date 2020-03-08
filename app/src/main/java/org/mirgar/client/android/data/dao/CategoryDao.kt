@@ -1,4 +1,4 @@
-package org.mirgar.client.android.data
+package org.mirgar.client.android.data.dao
 
 import androidx.lifecycle.LiveData
 
@@ -6,6 +6,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import org.mirgar.client.android.data.entity.Category
+import org.mirgar.client.android.data.entity.CategoryRelations
 
 @Dao
 interface CategoryDao {

@@ -1,4 +1,4 @@
-package org.mirgar.client.android.data
+package org.mirgar.client.android.data.entity
 
 import androidx.room.*
 

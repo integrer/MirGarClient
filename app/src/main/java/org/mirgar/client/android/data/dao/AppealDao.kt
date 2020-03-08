@@ -1,7 +1,8 @@
-package org.mirgar.client.android.data
+package org.mirgar.client.android.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Query
+import org.mirgar.client.android.data.entity.Appeal
 
 interface AppealDao {
     @Query("SELECT * FROM appeals")

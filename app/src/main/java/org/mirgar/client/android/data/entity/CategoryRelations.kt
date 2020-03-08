@@ -1,7 +1,8 @@
-package org.mirgar.client.android.data
+package org.mirgar.client.android.data.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import org.mirgar.client.android.data.entity.Category
 
 class CategoryRelations(
     @Embedded
