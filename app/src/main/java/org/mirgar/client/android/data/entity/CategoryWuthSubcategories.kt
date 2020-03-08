@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import org.mirgar.client.android.data.entity.Category
 
-class CategoryRelations(
+class CategoryWuthSubcategories(
     @Embedded
     val category: Category,
 
