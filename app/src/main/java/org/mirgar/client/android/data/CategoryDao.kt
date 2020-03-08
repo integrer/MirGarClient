@@ -9,6 +9,7 @@ import androidx.room.Transaction
 
 @Dao
 interface CategoryDao {
+    @Query("SELECT * FROM categories")
     fun getAll(): LiveData<List<Category>>
 
     @Transaction
