@@ -11,10 +11,6 @@ import org.mirgar.client.android.R
 
 class MyAppealsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MyAppealsFragment()
-    }
-
     private lateinit var viewModel: MyAppealsViewModel
 
     override fun onCreateView(
