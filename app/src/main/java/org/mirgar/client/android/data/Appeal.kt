@@ -1,15 +1,23 @@
 package org.mirgar.client.android.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(
     tableName = "appeals",
+    foreignKeys = [ForeignKey(
+        entity = Category::class,
+        parentColumns = ["id"],
+        childColumns = ["category_id"]
+    )],
     indices = [Index("is_own")]
 )
-class Appeal (
-    @PrimaryKey var id: Long,
-    @ColumnInfo(name = "is_own") var isOwn: Boolean
+class Appeal(
+    @PrimaryKey val id: Long,
+    @ColumnInfo(name = "is_own") val isOwn: Boolean,
+    @ColumnInfo(name = "category_id") val categoryId: Long?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "category_id"
+    )
+    val category: Category?
 )
