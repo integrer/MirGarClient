@@ -7,18 +7,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 import org.mirgar.client.android.cfg.DB
+import org.mirgar.client.android.data.dao.AppealDao
 import org.mirgar.client.android.data.dao.CategoryDao
+import org.mirgar.client.android.data.entity.Appeal
 import org.mirgar.client.android.data.entity.Category
 
-@Database(entities = [Category::class], version = 1, exportSchema = false)
+@Database(entities = [Appeal::class, Category::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getCategoryDao(): CategoryDao
+
+    abstract fun getAppealDao(): AppealDao
 
     companion object {
         @Volatile
         private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
+        fun fromAppContext(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
                 instance ?: build(context).also { instance = it }
             }
