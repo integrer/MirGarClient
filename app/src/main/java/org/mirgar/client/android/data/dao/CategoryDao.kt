@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import org.mirgar.client.android.data.entity.Category
-import org.mirgar.client.android.data.entity.CategoryWuthSubcategories
+import org.mirgar.client.android.data.entity.CategoryWithSubcategories
 
 @Dao
 interface CategoryDao {
@@ -15,12 +15,12 @@ interface CategoryDao {
     fun getAll(): LiveData<List<Category>>
 
     @Transaction
-    @Query("SELECT * FROM categories WHERE id IN (SELECT DISTINCT(super_id) FROM categories)")
-    fun getCategoriesWithSubcategories(): LiveData<List<CategoryWuthSubcategories>>
+    @Query("SELECT * FROM categories WHERE category_id IN (SELECT DISTINCT(super_id) FROM categories)")
+    fun getCategoriesWithSubcategories(): LiveData<List<CategoryWithSubcategories>>
 
     @Transaction
-    @Query("SELECT * FROM categories WHERE id = :id")
-    fun getSubcategories(id: Long): LiveData<CategoryWuthSubcategories>
+    @Query("SELECT * FROM categories WHERE category_id = :id")
+    fun getSubcategories(id: Long): LiveData<CategoryWithSubcategories>
 
     @Query("SELECT * FROM categories WHERE super_id IS NULL")
     fun getRoots(): LiveData<List<Category>>

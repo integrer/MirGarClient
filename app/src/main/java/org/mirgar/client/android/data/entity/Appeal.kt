@@ -6,18 +6,13 @@ import androidx.room.*
     tableName = "appeals",
     foreignKeys = [ForeignKey(
         entity = Category::class,
-        parentColumns = ["id"],
-        childColumns = ["category_id"]
+        parentColumns = ["category_id"],
+        childColumns = ["_category_id"]
     )],
-    indices = [Index("is_own")]
+    indices = [Index("is_own"), Index("_category_id")]
 )
-class Appeal(
-    @PrimaryKey val id: Long,
+data class Appeal(
+    @PrimaryKey @ColumnInfo(name = "appeal_id") val id: Long,
     @ColumnInfo(name = "is_own") val isOwn: Boolean,
-    @ColumnInfo(name = "category_id") val categoryId: Long?,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "category_id"
-    )
-    val category: Category?
+    @ColumnInfo(name = "_category_id") val categoryId: Long?
 )
