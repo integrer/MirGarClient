@@ -2,8 +2,12 @@ package org.mirgar.client.android.data.repository
 
 import org.mirgar.client.android.data.AppDatabase
 import org.mirgar.client.android.data.dao.AppealDao
+import org.mirgar.client.android.data.entity.AppealWithCategoryTitle
 
 class AppealRepository private constructor(private val dao: AppealDao) {
+    val myAppealsWithCategoryTitles: List<AppealWithCategoryTitle>
+        get() = dao.getOwnWithCategoryTitle()
+
     companion object {
         fun fromDao(dao: AppealDao) = AppealRepository(dao)
 
