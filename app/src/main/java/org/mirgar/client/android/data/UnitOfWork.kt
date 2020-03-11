@@ -19,10 +19,10 @@ class UnitOfWork (context: Context) {
     /**
      * Reference to [AppealRepository]. Created lazy for more performance.
      */
-    val appealRepository: AppealRepository by lazy { AppealRepository.fromDatabase(database) }
+    val appealRepository: AppealRepository get() = AppealRepository.fromDatabase(database)
 
     /**
      * Reference to [CategoryRepository]. Created lazy for more performance.
      */
-    val categoryRepository: CategoryRepository by lazy { CategoryRepository.fromDatabase(database) }
+    val categoryRepository: CategoryRepository get() = CategoryRepository.fromDatabase(database)
 }
