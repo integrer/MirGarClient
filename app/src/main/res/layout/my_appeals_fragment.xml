@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.MyAppealsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <data>
+        <variable
+            name="hasAppeals"
+            type="boolean" />
+    </data>
 
-</FrameLayout>
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/appeals_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layout_marginStart="@dimen/card_side_margin"
+            android:layout_marginEnd="@dimen/card_side_margin"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:isGone="@{!hasAppeals}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:isGone="@{hasAppeals}">
+
+            <TextView
+                android:id="@+id/empty_list"
+                />
+
+        </LinearLayout>
+        
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="@dimen/card_side_margin"
+            android:layout_marginBottom="@dimen/card_side_margin"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_add_black_24dp" />
+
+    </FrameLayout>
+</layout>

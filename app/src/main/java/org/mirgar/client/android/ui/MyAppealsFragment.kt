@@ -15,6 +15,8 @@ import org.mirgar.client.android.ui.viewmodels.MyAppealsViewModel
 
 class MyAppealsFragment : Fragment() {
 
+    //private lateinit var binding: FragmentMyAppealsBinging
+
     private val unitOfWork: UnitOfWork by lazy { UnitOfWork(requireContext()) }
 
     private val viewModel: MyAppealsViewModel by viewModels {
