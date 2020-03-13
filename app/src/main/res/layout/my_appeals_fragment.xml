@@ -36,7 +36,10 @@
 
             <TextView
                 android:id="@+id/empty_list"
-                />
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/no_own_appeals"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
 
         </LinearLayout>
         
