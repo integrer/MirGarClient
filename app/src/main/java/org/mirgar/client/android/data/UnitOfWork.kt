@@ -17,12 +17,12 @@ class UnitOfWork (context: Context) {
     private val database: AppDatabase by lazy { AppDatabase.fromAppContext(appContext) }
 
     /**
-     * Reference to [AppealRepository]. Created lazy for more performance.
+     * Reference to [AppealRepository]
      */
-    val appealRepository: AppealRepository by lazy { AppealRepository.fromDatabase(database) }
+    val appealRepository: AppealRepository get() = AppealRepository.fromDatabase(database)
 
     /**
-     * Reference to [CategoryRepository]. Created lazy for more performance.
+     * Reference to [CategoryRepository]
      */
-    val categoryRepository: CategoryRepository by lazy { CategoryRepository.fromDatabase(database) }
+    val categoryRepository: CategoryRepository get() = CategoryRepository.fromDatabase(database)
 }
