@@ -4,5 +4,5 @@
     <string name="title_my_appeals">My Appeals</string>
     <string name="title_dashboard">Website Appeals</string>
     <string name="title_notifications">Notifications</string>
-    <string name="no_own_appeals">There are no your appeals yet</string>
+    <string name="no_own_appeals">There are no appeals yet</string>
 </resources>

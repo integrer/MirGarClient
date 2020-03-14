@@ -10,9 +10,23 @@
             type="boolean" />
     </data>
 
-    <FrameLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/colorAccent"
+            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_add_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/colorAccent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/appeals_list"
@@ -22,35 +36,24 @@
             android:layout_marginStart="@dimen/card_side_margin"
             android:layout_marginEnd="@dimen/card_side_margin"
             android:layout_marginTop="@dimen/margin_normal"
-            app:isGone="@{!hasAppeals}"
+            app:isGone="@{hasAppeals}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_own_appeals"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:isGone="@{!hasAppeals}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:isGone="@{hasAppeals}">
-
-            <TextView
-                android:id="@+id/empty_list"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="@string/no_own_appeals"
-                android:textAppearance="?attr/textAppearanceHeadline5" />
-
-        </LinearLayout>
-        
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="@dimen/card_side_margin"
-            android:layout_marginBottom="@dimen/card_side_margin"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_add_black_24dp" />
-
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
