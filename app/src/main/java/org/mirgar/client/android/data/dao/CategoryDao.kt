@@ -25,6 +25,10 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE super_id IS NULL")
     fun getRoots(): LiveData<List<Category>>
 
+    @Transaction
+    @Query("SELECT EXISTS(SELECT 1 FROM categories WHERE super_id = :id LIMIT 1)")
+    fun hasChild(id: Long): Boolean
+
     @Insert
     fun insert(category: Category)
 }
