@@ -60,10 +60,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.androidx_ver.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.androidx_ver.navigation"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidx_ver.recycler_view"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    kapt "androidx.room:room-compiler:$rootProject.androidx_ver.room"
+    kapt           "androidx.room:room-compiler:$rootProject.androidx_ver.room"
     implementation "androidx.room:room-guava:$rootProject.androidx_ver.room" // ?
     implementation "androidx.room:room-ktx:$rootProject.androidx_ver.room"
     implementation "androidx.room:room-runtime:$rootProject.androidx_ver.room"

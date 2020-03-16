@@ -8,6 +8,9 @@
         <variable
             name="hasAppeals"
             type="boolean" />
+        <variable
+            name="onAdd"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,12 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@color/colorAccent"
+            android:theme="@style/AppTheme"
             android:tint="@color/colorPrimary"
             android:src="@drawable/ic_add_black_24dp"
+            android:onClick="@{onAdd}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="@color/colorAccent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/appeals_list"

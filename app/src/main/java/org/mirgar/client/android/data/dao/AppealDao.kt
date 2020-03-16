@@ -18,31 +18,34 @@ interface AppealDao {
     fun getAlien(): LiveData<List<Appeal>>
 
     @Transaction
-    @Query("SELECT * FROM appeals JOIN categories ON category_id = _category_id")
+    @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id")
     fun getAllWithCategory(): List<AppealWithCategory>
 
     @Transaction
-    @Query("SELECT * FROM appeals JOIN categories ON category_id = _category_id WHERE is_own")
+    @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id WHERE is_own")
     fun getOwnWithCategory(): List<AppealWithCategory>
 
     @Transaction
-    @Query("SELECT * FROM appeals JOIN categories ON category_id = _category_id WHERE NOT is_own")
+    @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id WHERE NOT is_own")
     fun getAlienWithCategory(): List<AppealWithCategory>
 
     @Transaction
-    @Query("SELECT appeals.*, categories.title as category_title FROM appeals LEFT JOIN categories ON category_id = _category_id")
+    @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id")
     fun getAllWithCategoryTitle(): List<AppealWithCategoryTitle>
 
     @Transaction
-    @Query("SELECT appeals.*, categories.title as category_title FROM appeals LEFT JOIN categories ON category_id = _category_id WHERE is_own")
+    @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE is_own")
     fun getOwnWithCategoryTitle(): List<AppealWithCategoryTitle>
 
     @Transaction
-    @Query("SELECT appeals.*, categories.title as category_title FROM appeals LEFT JOIN categories ON category_id = _category_id WHERE NOT is_own")
+    @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE NOT is_own")
     fun getAlienWithCategoryTitle(): List<AppealWithCategoryTitle>
 
+    @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
+    fun getById(id: Long): LiveData<Appeal>
+
     @Insert
-    fun insert(appeal: Appeal)
+    fun insert(appeal: Appeal): Long
 
     @Update
     fun update(appeal: Appeal)

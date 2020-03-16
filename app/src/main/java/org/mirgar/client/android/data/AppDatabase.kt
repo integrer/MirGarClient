@@ -22,8 +22,10 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var instance: AppDatabase? = null
 
+        private val monitor = Object()
+
         fun fromAppContext(context: Context): AppDatabase {
-            return instance ?: synchronized(this) {
+            return instance ?: synchronized(monitor) {
                 instance ?: build(context).also { instance = it }
             }
         }

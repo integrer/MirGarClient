@@ -7,12 +7,14 @@ import androidx.room.*
     foreignKeys = [ForeignKey(
         entity = Category::class,
         parentColumns = ["category_id"],
-        childColumns = ["_category_id"]
+        childColumns = ["appeal_category_id"]
     )],
-    indices = [Index("is_own"), Index("_category_id")]
+    indices = [Index("is_own"), Index("appeal_category_id")]
 )
 data class Appeal(
-    @PrimaryKey @ColumnInfo(name = "appeal_id") val id: Long,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "appeal_id") val id: Long,
+    @ColumnInfo(name = "appeal_server_id") val serverId: Long?,
+    @ColumnInfo(name = "appeal_title") val title: String?,
     @ColumnInfo(name = "is_own") val isOwn: Boolean,
-    @ColumnInfo(name = "_category_id") val categoryId: Long?
+    @ColumnInfo(name = "appeal_category_id") val categoryId: Long?
 )

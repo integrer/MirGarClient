@@ -12,7 +12,7 @@ import androidx.room.*
 )
 data class Category(
     @ColumnInfo(name = "category_id") @PrimaryKey val id: Long,
-    val title: String,
+    @ColumnInfo(name = "category_title") val title: String,
     @ColumnInfo(name = "super_id") val superId: Long?,
     @ColumnInfo(name = "icon_url") val iconUrl: String?,
     val checksum: ByteArray) {

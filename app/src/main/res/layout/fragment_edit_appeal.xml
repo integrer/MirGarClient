@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:inputType="textShortMessage"
         android:importantForAutofill="no"
+        android:text="@={}"
         android:hint="@string/edit_appeal_input_heading" />
 
     <!-- ToDo: Add a spinner for selecting a category with recreating for each sublevel.-->
