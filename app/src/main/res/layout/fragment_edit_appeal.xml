@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_normal"
-    android:layout_marginStart="@dimen/card_side_margin"
-    android:layout_marginEnd="@dimen/card_side_margin"
-    android:orientation="vertical"
-    tools:context=".ui.EditAppealFragment" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="org.mirgar.client.android.ui.viewmodels.EditAppealViewModel" />
+    </data>
 
-    <EditText
-        android:id="@+id/heading"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textShortMessage"
-        android:importantForAutofill="no"
-        android:text="@={}"
-        android:hint="@string/edit_appeal_input_heading" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginStart="@dimen/card_side_margin"
+        android:layout_marginEnd="@dimen/card_side_margin"
+        android:orientation="vertical"
+        tools:context=".ui.EditAppealFragment" >
 
-    <!-- ToDo: Add a spinner for selecting a category with recreating for each sublevel.-->
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_appeal_btn_select_cat"/>
+        <EditText
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textShortMessage"
+            android:importantForAutofill="no"
+            android:text="@={viewModel.appeal.title}"
+            android:hint="@string/edit_appeal_input_heading" />
 
-</LinearLayout>
+        <!-- ToDo: Add a spinner for selecting a category with recreating for each sublevel.-->
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_appeal_btn_select_cat"/>
+
+    </LinearLayout>
+</layout>

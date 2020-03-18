@@ -19,7 +19,11 @@
         android:id="@+id/navigation_edit_appeal"
         android:name="org.mirgar.client.android.ui.EditAppealFragment"
         android:label="@string/title_edit_appeal"
-        tools:layout="@layout/fragment_edit_appeal" />
+        tools:layout="@layout/fragment_edit_appeal" >
+        <argument
+            android:name="appeal_id"
+            app:argType="long" />
+    </fragment>
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_dashboard"-->
