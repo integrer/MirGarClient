@@ -14,7 +14,7 @@ import androidx.room.*
 data class Appeal(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "appeal_id") val id: Long,
     @ColumnInfo(name = "appeal_server_id") val serverId: Long? = null,
-    @ColumnInfo(name = "appeal_title") val title: String? = null,
+    @ColumnInfo(name = "appeal_title") var title: String? = null,
     @ColumnInfo(name = "is_own") val isOwn: Boolean,
-    @ColumnInfo(name = "appeal_category_id") val categoryId: Long? = null
+    @ColumnInfo(name = "appeal_category_id") var categoryId: Long? = null
 )
