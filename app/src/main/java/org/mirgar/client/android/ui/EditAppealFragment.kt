@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 
 import org.mirgar.client.android.R
 import org.mirgar.client.android.data.UnitOfWork
-import org.mirgar.client.android.databinding.FragmentEditAppealBinding
+import org.mirgar.client.android.databinding.FragmentEditAppealBinding as Binding
 import org.mirgar.client.android.ui.viewmodels.EditAppealViewModel
 
 class EditAppealFragment : Fragment() {
@@ -28,8 +28,10 @@ class EditAppealFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentEditAppealBinding.inflate(inflater, container, false)
+        val binding = Binding.inflate(inflater, container, false)
         context ?: return binding.root
+
+        binding.viewModel = viewModel
 
         return inflater.inflate(R.layout.fragment_edit_appeal, container, false)
     }
