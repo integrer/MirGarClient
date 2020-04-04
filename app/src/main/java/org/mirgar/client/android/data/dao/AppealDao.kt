@@ -44,6 +44,9 @@ interface AppealDao {
     @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
     fun getById(id: Long): LiveData<Appeal>
 
+    @Query("SELECT EXISTS(SELECT 1 FROM appeals WHERE is_own LIMIT 1)")
+    fun hasMyAppeals(): Boolean
+
     @Insert
     fun insert(appeal: Appeal): Long
 

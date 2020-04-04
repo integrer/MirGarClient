@@ -13,6 +13,12 @@ class AppealRepository private constructor(private val db: AppDatabase) {
     val myAppealsWithCategoryTitles: List<AppealWithCategoryTitle>
         get() = dao.getOwnWithCategoryTitle()
 
+    val hasMyAppeals: Boolean
+        get() = dao.hasMyAppeals()
+
+    /**
+     * Creates new appeal in local database
+     */
     fun new(): Long = dao.insert(Appeal(0, isOwn = true))
 
     fun getOne(id: Long): LiveData<Appeal> = dao.getById(id)
