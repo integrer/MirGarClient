@@ -3,26 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_my_appeals">
+    app:startDestination="@+id/dst_my_appeals">
 
     <fragment
-        android:id="@+id/navigation_my_appeals"
+        android:id="@+id/dst_my_appeals"
         android:name="org.mirgar.client.android.ui.MyAppealsFragment"
         android:label="@string/title_my_appeals"
         tools:layout="@layout/my_appeals_fragment" >
         <action
             android:id="@+id/action_navigation_my_appeals_to_editAppealFragment"
-            app:destination="@id/navigation_edit_appeal" />
+            app:destination="@id/dst_edit_appeal" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_edit_appeal"
+        android:id="@+id/dst_edit_appeal"
         android:name="org.mirgar.client.android.ui.EditAppealFragment"
         android:label="@string/title_edit_appeal"
         tools:layout="@layout/fragment_edit_appeal" >
         <argument
             android:name="appeal_id"
-            app:argType="long" />
+            app:argType="long"
+            app:nullable="true" />
     </fragment>
 
 <!--    <fragment-->

@@ -19,40 +19,43 @@ interface AppealDao {
 
     @Transaction
     @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id")
-    fun getAllWithCategory(): List<AppealWithCategory>
+    fun getAllWithCategory(): LiveData<List<AppealWithCategory>>
 
     @Transaction
     @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id WHERE is_own")
-    fun getOwnWithCategory(): List<AppealWithCategory>
+    fun getOwnWithCategory(): LiveData<List<AppealWithCategory>>
 
     @Transaction
     @Query("SELECT * FROM appeals JOIN categories ON category_id = appeal_category_id WHERE NOT is_own")
-    fun getAlienWithCategory(): List<AppealWithCategory>
+    fun getAlienWithCategory(): LiveData<List<AppealWithCategory>>
 
     @Transaction
     @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id")
-    fun getAllWithCategoryTitle(): List<AppealWithCategoryTitle>
+    fun getAllWithCategoryTitle(): LiveData<List<AppealWithCategoryTitle>>
 
     @Transaction
     @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE is_own")
-    fun getOwnWithCategoryTitle(): List<AppealWithCategoryTitle>
+    fun getOwnWithCategoryTitle(): LiveData<List<AppealWithCategoryTitle>>
 
     @Transaction
     @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE NOT is_own")
-    fun getAlienWithCategoryTitle(): List<AppealWithCategoryTitle>
+    fun getAlienWithCategoryTitle(): LiveData<List<AppealWithCategoryTitle>>
 
     @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
     fun getById(id: Long): LiveData<Appeal>
 
+    @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
+    suspend fun getByIdAsPlain(id: Long): Appeal?
+
     @Query("SELECT EXISTS(SELECT 1 FROM appeals WHERE is_own LIMIT 1)")
-    fun hasMyAppeals(): Boolean
+    fun hasMyAppeals(): LiveData<Boolean>
 
     @Insert
-    fun insert(appeal: Appeal): Long
+    suspend fun insert(appeal: Appeal): Long
 
     @Update
-    fun update(appeal: Appeal)
+    suspend fun update(appeal: Appeal)
 
     @Delete
-    fun delete(appeal: Appeal)
+    suspend fun delete(appeal: Appeal)
 }

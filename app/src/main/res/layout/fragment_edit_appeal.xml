@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="viewModel"
-            type="org.mirgar.client.android.ui.viewmodels.EditAppealViewModel" />
+            name="viewmodel"
+            type="org.mirgar.client.android.ui.viewmodels.EditAppeal" />
     </data>
 
     <LinearLayout
@@ -24,12 +23,13 @@
             android:layout_height="wrap_content"
             android:inputType="textShortMessage"
             android:importantForAutofill="no"
-            android:text="@={viewModel.appeal.title}"
+            android:text="@={viewmodel.title}"
             android:hint="@string/edit_appeal_input_heading" />
 
         <!-- ToDo: Add a spinner for selecting a category with recreating for each sublevel.-->
 
         <Button
+            android:id="@+id/select_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/edit_appeal_btn_select_cat"/>

@@ -1,25 +1,19 @@
 package org.mirgar.client.android.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-
-import org.mirgar.client.android.R
-import org.mirgar.client.android.data.UnitOfWork
+import org.mirgar.client.android.ui.viewmodels.EditAppeal
+import org.mirgar.client.android.ui.viewmodels.Factory
 import org.mirgar.client.android.databinding.FragmentEditAppealBinding as Binding
-import org.mirgar.client.android.ui.viewmodels.EditAppealViewModel
 
 class EditAppealFragment : Fragment() {
 
-    private val unitOfWork: UnitOfWork by lazy { UnitOfWork(requireContext()) }
-
-    private val viewModel: EditAppealViewModel by viewModels {
-        EditAppealViewModel.Factory(unitOfWork, args.appealId, this)
-    }
+    private val viewModel: EditAppeal by viewModels { Factory(requireContext()) }
 
     private val args: EditAppealFragmentArgs by navArgs()
 
@@ -29,16 +23,16 @@ class EditAppealFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = Binding.inflate(inflater, container, false)
-        context ?: return binding.root
+            .apply {
+                viewmodel = viewModel
+                lifecycleOwner = viewLifecycleOwner
+//                selectCategory.setOnClickListener { v ->
+//                    val i = appeal
+//                }
+            }
 
-        binding.viewModel = viewModel
+        viewModel.setup(args.appealId, viewLifecycleOwner)
 
-        return inflater.inflate(R.layout.fragment_edit_appeal, container, false)
+        return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
-    }
-
 }

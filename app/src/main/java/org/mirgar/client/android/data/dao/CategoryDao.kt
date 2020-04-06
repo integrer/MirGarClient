@@ -27,8 +27,8 @@ interface CategoryDao {
 
     @Transaction
     @Query("SELECT EXISTS(SELECT 1 FROM categories WHERE super_id = :id LIMIT 1)")
-    fun hasChild(id: Long): Boolean
+    fun hasChild(id: Long): LiveData<Boolean>
 
     @Insert
-    fun insert(category: Category)
+    suspend fun insert(category: Category)
 }

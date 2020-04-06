@@ -1,11 +1,9 @@
 package org.mirgar.client.android.data
 
 import android.content.Context
-
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-
 import org.mirgar.client.android.cfg.DB
 import org.mirgar.client.android.data.dao.AppealDao
 import org.mirgar.client.android.data.dao.CategoryDao

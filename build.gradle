@@ -15,7 +15,7 @@ buildscript {
             room: '2.2.5',
         ]
         android_ver = [
-            material: '1.1.0',
+            material: '1.1.0-alpha09',
         ]
         retrofit_ver = '2.7.2'
     }
