@@ -16,21 +16,37 @@ class EditAppeal internal constructor(
     val title = MutableLiveData<String>()
 
     private var appeal = Appeal()
+    private var appealOrig = Appeal()
+
+    fun updateOriginal() {
+        appealOrig = appeal.copy()
+    }
 
     override suspend fun init(id: Long) {
         unitOfWork.appealRepository.getOneAsPlain(id)?.let { appeal ->
             this.appeal = appeal
+            updateOriginal()
             title.value = appeal.title
         }
     }
 
     override fun setObserversFor(owner: LifecycleOwner) {
-        title.observe(owner, { appeal.title = it })
+        title.observe(owner, {
+            if (it != appeal.title) {
+                appeal.title = it
+                changed = appeal != appealOrig
+            }
+        })
     }
 
     override suspend fun save(id: Long) {
-        unitOfWork.appealRepository.save(appeal.withId(id))
+        unitOfWork.appealRepository.save(appeal)
+        updateOriginal()
     }
 
     override suspend fun create(): Long = unitOfWork.appealRepository.new(appeal)
+        .also {
+            appeal = appeal.withId(it)
+            updateOriginal()
+        }
 }

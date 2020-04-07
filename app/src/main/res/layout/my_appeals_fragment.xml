@@ -8,6 +8,10 @@
         <variable
             name="hasAppeals"
             type="boolean" />
+
+        <variable
+            name="isDataLoaded"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,8 +23,8 @@
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
             android:theme="@style/AppTheme"
             android:tint="@color/colorPrimary"
             android:src="@drawable/ic_add_black_24dp"
@@ -35,7 +39,7 @@
             android:layout_marginStart="@dimen/card_side_margin"
             android:layout_marginEnd="@dimen/card_side_margin"
             android:layout_marginTop="@dimen/margin_normal"
-            app:isGone="@{!hasAppeals}"
+            app:isGone="@{!isDataLoaded || !hasAppeals}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +52,18 @@
             android:layout_height="wrap_content"
             android:text="@string/no_own_appeals"
             android:textAppearance="?attr/textAppearanceHeadline5"
-            app:isGone="@{hasAppeals}"
+            app:isGone="@{!isDataLoaded || hasAppeals}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isGone="@{isDataLoaded}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

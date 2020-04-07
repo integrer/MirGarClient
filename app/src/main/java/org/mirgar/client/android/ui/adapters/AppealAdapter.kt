@@ -1,5 +1,6 @@
 package org.mirgar.client.android.ui.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -7,16 +8,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import org.mirgar.client.android.R
+import org.mirgar.client.android.data.UnitOfWork
 import org.mirgar.client.android.data.entity.AppealWithCategoryTitle
 import org.mirgar.client.android.ui.viewmodels.Appeal
 import org.mirgar.client.android.databinding.ListItemAppealBinding as Binding
 
-class AppealAdapter : ListAdapter<AppealWithCategoryTitle, AppealAdapter.ViewHolder>(
+class AppealAdapter(context: Context) : ListAdapter<AppealWithCategoryTitle, AppealAdapter.ViewHolder>(
     AppealWithCategoryTitle.ItemCallback
 ) {
+    private val unitOfWork = UnitOfWork(context)
+
     class ViewHolder(private val binding: Binding) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.setClickListener { v ->
+            binding.body.setOnClickListener { v ->
                 binding.viewModel?.appeal?.apply {
                     if (serverId == null) {
                         v.navigateToEditAppeal(this)
@@ -27,9 +31,9 @@ class AppealAdapter : ListAdapter<AppealWithCategoryTitle, AppealAdapter.ViewHol
             }
         }
 
-        fun bind(appeal: AppealWithCategoryTitle) {
+        fun bind(appeal: AppealWithCategoryTitle, unitOfWork: UnitOfWork) {
             with(binding) {
-                viewModel = Appeal(appeal)
+                viewModel = Appeal(appeal, unitOfWork)
                 executePendingBindings()
             }
         }
@@ -47,7 +51,7 @@ class AppealAdapter : ListAdapter<AppealWithCategoryTitle, AppealAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), unitOfWork)
     }
 
 }
