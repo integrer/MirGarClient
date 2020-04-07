@@ -56,6 +56,9 @@ interface AppealDao {
     @Update
     suspend fun update(appeal: Appeal)
 
+    @Query("DELETE FROM appeals WHERE appeal_id = :id")
+    suspend fun delete(id: Long)
+
     @Delete
     suspend fun delete(appeal: Appeal)
 }

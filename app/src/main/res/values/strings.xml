@@ -8,4 +8,5 @@
     <string name="edit_appeal_input_heading">Heading</string>
     <string name="edit_appeal_btn_select_cat">Select category</string>
     <string name="title_edit_appeal">Edit appeal</string>
+    <string name="delete">Delete</string>
 </resources>
