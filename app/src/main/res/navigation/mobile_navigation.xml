@@ -23,7 +23,11 @@
         <argument
             android:name="appeal_id"
             app:argType="long"
-            app:nullable="true" />
+            android:defaultValue="0L" />
+        <argument
+            android:name="has_appeal_id"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
 
 <!--    <fragment-->

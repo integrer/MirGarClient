@@ -10,9 +10,10 @@ fun View.navigateToEditAppeal(appeal: Appeal) {
     navigateToEditAppeal(appeal.id)
 }
 
-fun View.navigateToEditAppeal(appealId: Long) {
+fun View.navigateToEditAppeal(appealId: Long? = null) {
     val direction = MyAppealsFragmentDirections.actionNavigationMyAppealsToEditAppealFragment(
-        appealId
+        appealId ?: 0L,
+        appealId != null
     )
     findNavController().navigate(direction)
 }

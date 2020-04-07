@@ -31,7 +31,9 @@ class EditAppealFragment : Fragment() {
 //                }
             }
 
-        viewModel.setup(args.appealId, viewLifecycleOwner)
+        val appealId = if (args.hasAppealId) args.appealId else null
+
+        viewModel.setup(appealId, viewLifecycleOwner)
 
         return binding.root
     }
