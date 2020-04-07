@@ -9,14 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import org.mirgar.client.android.ui.adapters.AppealAdapter
 import org.mirgar.client.android.ui.viewmodels.MyAppealsViewModel
+import org.mirgar.client.android.ui.viewmodels.viewModelFactory
 import org.mirgar.client.android.databinding.MyAppealsFragmentBinding as Binding
-import org.mirgar.client.android.ui.viewmodels.Factory as ViewModelFactory
 
 class MyAppealsFragment : Fragment() {
 
     private lateinit var binding: Binding
 
-    private val viewModel: MyAppealsViewModel by viewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: MyAppealsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

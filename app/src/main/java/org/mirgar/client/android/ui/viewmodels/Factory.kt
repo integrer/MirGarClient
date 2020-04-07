@@ -1,6 +1,7 @@
 package org.mirgar.client.android.ui.viewmodels
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.mirgar.client.android.data.UnitOfWork
@@ -18,3 +19,5 @@ class Factory(context: Context) : ViewModelProvider.Factory {
             }
         } as T
 }
+
+val Fragment.viewModelFactory get() = Factory(requireContext())

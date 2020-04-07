@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import org.mirgar.client.android.ui.viewmodels.EditAppeal
-import org.mirgar.client.android.ui.viewmodels.Factory
+import org.mirgar.client.android.ui.viewmodels.viewModelFactory
 import org.mirgar.client.android.databinding.FragmentEditAppealBinding as Binding
 
 class EditAppealFragment : Fragment() {
 
-    private val viewModel: EditAppeal by viewModels { Factory(requireContext()) }
+    private val viewModel: EditAppeal by viewModels { viewModelFactory }
 
     private val args: EditAppealFragmentArgs by navArgs()
 
