@@ -18,6 +18,9 @@
 
     <dimen name="plant_item_image_height">95dp</dimen>
 
+    <dimen name="list_icon_size">86dp</dimen>
+    <dimen name="list_icon_corner_size">43dp</dimen>
+
     <dimen name="card_side_margin">12dp</dimen>
     <dimen name="card_bottom_margin">26dp</dimen>
     <dimen name="card_elevation">2dp</dimen>

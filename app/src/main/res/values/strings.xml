@@ -9,4 +9,6 @@
     <string name="edit_appeal_btn_select_cat">Select category</string>
     <string name="title_edit_appeal">Edit appeal</string>
     <string name="delete">Delete</string>
+    <string name="item_selected">Item selected</string>
+    <string name="item">Item</string>
 </resources>

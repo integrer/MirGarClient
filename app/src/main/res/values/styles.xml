@@ -17,4 +17,15 @@
         <item name="cornerSizeBottomLeft">@dimen/card_corner_radius</item>
     </style>
 
+    <style name="ShapeAppearance.MirGar.ListIcon" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+
+        <item name="android:layout_margin">@dimen/margin_normal</item>
+
+        <item name="cornerSizeTopLeft">@dimen/list_icon_corner_size</item>
+        <item name="cornerSizeTopRight">@dimen/list_icon_corner_size</item>
+        <item name="cornerSizeBottomRight">@dimen/list_icon_corner_size</item>
+        <item name="cornerSizeBottomLeft">@dimen/list_icon_corner_size</item>
+    </style>
+
 </resources>
