@@ -28,9 +28,21 @@
             android:name="has_appeal_id"
             app:argType="boolean"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_dst_edit_appeal_to_dst_fragment_select_category"
+            app:destination="@id/dst_fragment_select_category" />
+    </fragment>
+    <fragment
+        android:id="@+id/dst_fragment_select_category"
+        android:name="org.mirgar.client.android.ui.SelectCategoryFragment"
+        android:label="fragment_select_category"
+        tools:layout="@layout/fragment_select_category" >
+        <argument
+            android:name="appealId"
+            app:argType="long"/>
     </fragment>
 
-<!--    <fragment-->
+    <!--    <fragment-->
 <!--        android:id="@+id/navigation_dashboard"-->
 <!--        android:name="org.mirgar.client.android.ui.dashboard.DashboardFragment"-->
 <!--        android:label="@string/title_dashboard"-->

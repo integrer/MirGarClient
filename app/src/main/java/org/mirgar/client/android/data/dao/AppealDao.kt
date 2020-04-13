@@ -56,6 +56,12 @@ interface AppealDao {
     @Update
     suspend fun update(appeal: Appeal)
 
+    @Query("UPDATE appeals SET appeal_category_id = :categoryId WHERE appeal_id = :id")
+    suspend fun setCategory(id: Long, categoryId: Long?)
+
+    @Query("SELECT appeal_category_id FROM appeals WHERE appeal_id = :id LIMIT 1")
+    suspend fun getCategoryId(id: Long): Long?
+
     @Query("DELETE FROM appeals WHERE appeal_id = :id")
     suspend fun delete(id: Long)
 

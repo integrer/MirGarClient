@@ -15,6 +15,7 @@ class Factory(context: Context) : ViewModelProvider.Factory {
             when {
                 isAssignableFrom(EditAppeal::class.java) -> EditAppeal(unitOfWork)
                 isAssignableFrom(MyAppealsViewModel::class.java) -> MyAppealsViewModel(unitOfWork)
+                isAssignableFrom(SelectCategory::class.java) -> SelectCategory(unitOfWork)
                 else -> throw UnsupportedOperationException("Unable to produce $name")
             }
         } as T
