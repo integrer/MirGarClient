@@ -40,12 +40,8 @@ class MyAppealsFragment : Fragment() {
     private fun subscribeUi(adapter: AppealAdapter) {
         viewModel.appealsWithCategoryTitles.observe(viewLifecycleOwner) { result ->
             binding.isDataLoaded = false
-            try {
-                binding.hasAppeals = !result.isNullOrEmpty()
-                adapter.submitList(result)
-            } finally {
-                binding.isDataLoaded = true
-            }
+            binding.hasAppeals = !result.isNullOrEmpty()
+            adapter.submitList(result) { binding.isDataLoaded = true }
         }
     }
 }

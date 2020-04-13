@@ -14,9 +14,12 @@ import androidx.room.*
 data class Appeal(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "appeal_id") val id: Long = 0L,
     @ColumnInfo(name = "appeal_server_id") val serverId: Long? = null,
-    @ColumnInfo(name = "appeal_title") var title: String? = null,
+    @ColumnInfo(name = "appeal_title") val title: String = "",
+    @ColumnInfo(name = "appeal_description") val description: String = "",
     @ColumnInfo(name = "is_own") val isOwn: Boolean = true,
-    @ColumnInfo(name = "appeal_category_id") var categoryId: Long? = null
+    @ColumnInfo(name = "appeal_category_id") val categoryId: Long? = null
 ) {
-    fun withId(id: Long) = Appeal(id, serverId, title, isOwn, categoryId)
+    companion object {
+        val default = Appeal()
+    }
 }

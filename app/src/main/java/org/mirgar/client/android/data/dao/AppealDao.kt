@@ -6,6 +6,7 @@ import org.mirgar.client.android.data.entity.Appeal
 import org.mirgar.client.android.data.entity.AppealWithCategory
 import org.mirgar.client.android.data.entity.AppealWithCategoryTitle
 
+// TODO: Make all DAO interfaces internal
 @Dao
 interface AppealDao {
     @Query("SELECT * FROM appeals")
@@ -49,6 +50,9 @@ interface AppealDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM appeals WHERE is_own LIMIT 1)")
     fun hasMyAppeals(): LiveData<Boolean>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM appeals WHERE appeal_id = :id LIMIT 1)")
+    suspend fun has(id: Long): Boolean
 
     @Insert
     suspend fun insert(appeal: Appeal): Long

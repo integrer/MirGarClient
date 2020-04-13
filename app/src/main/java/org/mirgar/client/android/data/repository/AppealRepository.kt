@@ -26,9 +26,17 @@ class AppealRepository private constructor(private val db: AppDatabase) {
     fun getOne(id: Long): LiveData<Appeal> = dao.getById(id)
 
     suspend fun getOneAsPlain(id: Long) = dao.getByIdAsPlain(id)
+
+    suspend fun setCategory(appealId: Long, categoryId: Long? = null) {
+        dao.setCategory(appealId, categoryId)
+    }
+
     suspend fun delete(id: Long) {
         dao.delete(id)
     }
+
+    suspend fun hasAppeal(id: Long) = dao.has(id)
+    suspend fun categoryIdOf(id: Long) : Long? = dao.getCategoryId(id)
 
     companion object {
         fun fromDatabase(database: AppDatabase) = AppealRepository(database)

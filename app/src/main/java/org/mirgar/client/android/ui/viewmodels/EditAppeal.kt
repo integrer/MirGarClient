@@ -1,8 +1,7 @@
 package org.mirgar.client.android.ui.viewmodels
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.observe
+import androidx.lifecycle.*
+
 import org.mirgar.client.android.data.UnitOfWork
 import org.mirgar.client.android.data.entity.Appeal
 
@@ -15,38 +14,57 @@ class EditAppeal internal constructor(
      */
     val title = MutableLiveData<String>()
 
-    private var appeal = Appeal()
-    private var appealOrig = Appeal()
+    /**
+     * Two-way data binding property for [Appeal.description]
+     */
+    val description = MutableLiveData<String>()
 
-    fun updateOriginal() {
-        appealOrig = appeal.copy()
-    }
+    private var appealOriginal = Appeal()
 
-    override suspend fun init(id: Long) {
-        unitOfWork.appealRepository.getOneAsPlain(id)?.let { appeal ->
-            this.appeal = appeal
-            updateOriginal()
-            title.value = appeal.title
-        }
-    }
-
-    override fun setObserversFor(owner: LifecycleOwner) {
-        title.observe(owner, {
-            if (it != appeal.title) {
-                appeal.title = it
-                changed = appeal != appealOrig
+    private val appealMerger: MediatorLiveData<Appeal> = with(MediatorLiveData<Appeal>()) {
+        value = Appeal()
+        addSource(title) { newTitle ->
+            value?.let {
+                if (it.title != newTitle) value = it.copy(title = newTitle)
             }
-        })
+        }
+        addSource(description) { newDescription ->
+            value?.let {
+                if (it.description != newDescription) value = it.copy(description = newDescription)
+            }
+        }
+        this
+    }
+
+    private fun initBindings(appeal: Appeal) {
+        appealMerger.value = appeal
+        title.value = appeal.title
+        description.value = appeal.description
+    }
+
+    //region Standard hooks
+    override suspend fun init(id: Long, lifecycleOwner: LifecycleOwner) {
+        unitOfWork.appealRepository.let { repo ->
+            if (!repo.hasAppeal(id)) TODO("Throw custom exception")
+            repo.getOne(id).observe(lifecycleOwner) {
+                appealOriginal = it
+            }
+            appealOriginal = repo.getOneAsPlain(id)!!
+            initBindings(appealOriginal)
+        }
     }
 
     override suspend fun save(id: Long) {
-        unitOfWork.appealRepository.save(appeal)
-        updateOriginal()
+        unitOfWork.appealRepository.save(appealMerger.value!!)
     }
 
-    override suspend fun create(): Long = unitOfWork.appealRepository.new(appeal)
-        .also {
-            appeal = appeal.withId(it)
-            updateOriginal()
-        }
+    override suspend fun create() = unitOfWork.appealRepository.new(appealMerger.value!!)
+    //endregion
+
+    //region Standard properties
+    override val observable = appealMerger
+
+    override val isValueSame
+        get() = appealMerger.value == if (isSaved) appealOriginal else Appeal.default
+    //endregion
 }
