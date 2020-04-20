@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="org.mirgar.android.mgclient.ui.viewmodels.EditAppeal" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" >
+
+        <ScrollView
+            android:id="@+id/form_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/card_side_margin"
+                android:layout_marginEnd="@dimen/card_side_margin"
+                android:orientation="vertical"
+                tools:context=".ui.EditAppealFragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  >
+
+
+                <EditText
+                    android:id="@+id/heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textShortMessage"
+                    android:importantForAutofill="no"
+                    android:text="@={viewmodel.title}"
+                    android:hint="@string/edit_appeal_input_heading" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:importantForAutofill="no"
+                    android:text="@={viewmodel.description}"
+                    android:hint="@string/edit_appeal_input_description"/>
+
+                <Button
+                    android:id="@+id/select_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{viewmodel.isSaved}"
+                    android:text="@string/edit_appeal_btn_select_cat"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_my_location_black_24dp"
+                        android:contentDescription="@string/my_location"
+                        android:onClick="@{() -> viewmodel.fetchLocation()}"
+                        android:enabled="@{viewmodel.isSaved &amp;&amp; !viewmodel.isLocationFetching}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.latitude.toString()}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.longitude.toString()}" />
+            </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:theme="@style/AppTheme"
+            android:src="@drawable/ic_save_24dp"
+            android:onClick="@{() -> viewmodel.save()}"
+            app:isGone="@{!viewmodel.hasChanges}"
+            app:fabSize="normal"
+            app:layout_anchor="@id/form_scroll"
+            app:layout_anchorGravity="bottom|right|end" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

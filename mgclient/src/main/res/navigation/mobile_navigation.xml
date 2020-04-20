@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/dst_my_appeals">
+
+    <fragment
+        android:id="@+id/dst_my_appeals"
+        android:name="org.mirgar.android.mgclient.ui.MyAppealsFragment"
+        android:label="@string/title_my_appeals"
+        tools:layout="@layout/fragment_my_appeals" >
+        <action
+            android:id="@+id/action_navigation_my_appeals_to_editAppealFragment"
+            app:destination="@id/dst_edit_appeal" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dst_edit_appeal"
+        android:name="org.mirgar.android.mgclient.ui.EditAppealFragment"
+        android:label="@string/title_edit_appeal"
+        tools:layout="@layout/fragment_edit_appeal" >
+
+        <argument
+            android:name="appeal_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+        <argument
+            android:name="has_appeal_id"
+            app:argType="boolean"
+            android:defaultValue="true" />
+
+        <action
+            android:id="@+id/action_dst_edit_appeal_to_dst_fragment_select_category"
+            app:destination="@id/dst_fragment_select_category" />
+
+        <action
+            android:id="@+id/action_dst_edit_appeal_to_dst_fragment_authorization"
+            app:destination="@id/dst_fragment_authorization" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dst_fragment_select_category"
+        android:name="org.mirgar.android.mgclient.ui.SelectCategoryFragment"
+        android:label="fragment_select_category"
+        tools:layout="@layout/fragment_select_category" >
+        <argument
+            android:name="appealId"
+            app:argType="long"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dst_fragment_authorization"
+        android:name="org.mirgar.android.mgclient.ui.AuthorizationFragment"
+        android:label="fragment_authorization"
+        tools:layout="@layout/fragment_authorization" />
+
+    <!--    <fragment-->
+<!--        android:id="@+id/navigation_dashboard"-->
+<!--        android:name="org.mirgar.android.android.ui.dashboard.DashboardFragment"-->
+<!--        android:label="@string/title_dashboard"-->
+<!--        tools:layout="@layout/fragment_dashboard" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:name="org.mirgar.android.android.ui.notifications.NotificationsFragment"-->
+<!--        android:label="@string/title_notifications"-->
+<!--        tools:layout="@layout/fragment_notifications" />-->
+</navigation>

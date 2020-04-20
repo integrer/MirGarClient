@@ -1,2 +1,4 @@
 rootProject.name='MirGar'
-include ':app'
+include ':mgclient'
+include ':common'
+include ':cryptoelection'

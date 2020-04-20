@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        applicationId 'org.mirgar.android.mgclient'
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "0.1.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+// To inline the bytecode built with JVM target 1.8 into
+// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlin_ver"
+
+    //region android
+    implementation "androidx.appcompat:appcompat:$rootProject.androidx_ver.appcompat"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.androidx_ver.constraint_layout"
+    implementation "androidx.core:core-ktx:$rootProject.androidx_ver.core"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.androidx_ver.fragment"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.androidx_ver.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.androidx_ver.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.androidx_ver.lifecycle"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.androidx_ver.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.androidx_ver.navigation"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.androidx_ver.recycler_view"
+    kapt           "androidx.room:room-compiler:$rootProject.androidx_ver.room"
+    implementation "androidx.room:room-ktx:$rootProject.androidx_ver.room"
+    implementation "androidx.room:room-runtime:$rootProject.androidx_ver.room"
+    implementation "com.google.android.material:material:$rootProject.android_ver.material"
+    //endregion
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_ver"
+    implementation "com.squareup.retrofit2:converter-jackson:$rootProject.retrofit_ver"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind:$rootProject.jackson_ver"
+    implementation 'de.undercouch:bson4jackson:2.9.2'
+
+    implementation project(path: ':common')
+
+    // tests
+    testImplementation "junit:junit:$rootProject.junit_ver"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.androidx_ver.test.junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.androidx_ver.test.espresso"
+    testImplementation "androidx.room:room-testing:$rootProject.androidx_ver.room"
+}

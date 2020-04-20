@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="item_selected">Item selected</string>
+    <string name="item">Item</string>
+    <string name="continue_question">Continue?</string>
+</resources>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MirGar</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_my_appeals">My Appeals</string>
+    <string name="title_dashboard">Website Appeals</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="no_own_appeals">There are no appeals yet</string>
+    <string name="edit_appeal_input_heading">Heading</string>
+    <string name="edit_appeal_btn_select_cat">Select category</string>
+    <string name="title_edit_appeal">Edit appeal</string>
+    <string name="delete">Delete</string>
+    <string name="edit_appeal_input_description">Type short description</string>
+    <string name="level_up">Level up</string>
+    <string name="consequence_appealDelete">Appeal will be deleted.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login" >Login</string>
+    <string name="send_appeal">Send appeal</string>
+    <string name="authorization_required">Authorization is required.</string>
+    <string name="my_location">My location</string>
+    <string name="error">Error</string>
+    <string name="location_noPremission">Loaction permission is required</string>
+</resources>

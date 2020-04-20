@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="org.mirgar.android.common.viewmodel.SelectableItem" />
+    </data>
+
+    <org.mirgar.android.common.view.MaskedCardView
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_side_margin"
+        android:layout_marginEnd="@dimen/card_side_margin"
+        android:layout_marginBottom="@dimen/card_bottom_margin"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardPreventCornerOverlap="false"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.Card">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:onClick="@{() -> viewModel.click()}">
+
+            <org.mirgar.android.common.view.MaskedCardView
+                android:layout_width="@dimen/list_icon_size"
+                android:layout_height="@dimen/list_icon_size"
+                android:layout_gravity="center"
+                app:cardPreventCornerOverlap="false"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.ListIcon" >
+
+                <ImageView
+                    android:id="@+id/icon_selected"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.ListIcon"
+
+                    android:background="@color/colorAccent"
+                    android:src="@drawable/ic_done_black_24dp"
+                    android:theme="@style/AppTheme"
+                    app:isGone="@{!viewModel.isSelected}"
+                    android:onClick="@{() -> viewModel.deselect()}"
+                    android:contentDescription="@string/item_selected" />
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:background="@android:color/background_light"
+                    android:theme="@style/AppTheme"
+                    app:isGone="@{viewModel.isSelected}"
+                    app:tryLoadImageFrom="@{viewModel.imageUri}"
+                    app:orElse="@{@drawable/ic_chevron_right_24dp}"
+                    android:onClick="@{() -> viewModel.select()}"
+                    android:contentDescription="@string/item" />
+
+            </org.mirgar.android.common.view.MaskedCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/margin_normal" >
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margin_small"
+
+                    android:gravity="start"
+                    android:text="@{viewModel.name}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </org.mirgar.android.common.view.MaskedCardView>
+
+</layout>
