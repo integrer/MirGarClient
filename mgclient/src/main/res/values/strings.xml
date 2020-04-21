@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MirGar</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="title_my_appeals">My Appeals</string>
     <string name="title_dashboard">Website Appeals</string>
     <string name="title_notifications">Notifications</string>
@@ -19,5 +18,12 @@
     <string name="authorization_required">Authorization is required.</string>
     <string name="my_location">My location</string>
     <string name="error">Error</string>
-    <string name="location_noPremission">Loaction permission is required</string>
+    <string name="location_noPermission">Location permission is required</string>
+    <string name="no_category">Category is required</string>
+    <string name="appeal_not_found">Appeal not found</string>
+    <string name="no_subcategories">Selected category has no subcategories</string>
+    <string name="username_required">Username is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="authorize">Authorize</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>

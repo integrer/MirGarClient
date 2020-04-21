@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import org.mirgar.android.common.view.BaseFragment
 import org.mirgar.android.mgclient.ui.viewmodels.Authorization
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import org.mirgar.android.mgclient.databinding.FragmentAuthorizationBinding as Binding
 
-class AuthorizationFragment : Fragment() {
+class AuthorizationFragment : BaseFragment() {
 
-    private val viewModel: Authorization by viewModels { viewModelFactory }
+    override val viewModel: Authorization by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,

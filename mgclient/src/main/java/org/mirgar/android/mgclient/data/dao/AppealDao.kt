@@ -6,9 +6,8 @@ import org.mirgar.android.mgclient.data.entity.Appeal
 import org.mirgar.android.mgclient.data.models.AppealWithCategory
 import org.mirgar.android.mgclient.data.models.AppealWithCategoryTitle
 
-// TODO: Make all DAO interfaces internal
 @Dao
-interface AppealDao {
+internal interface AppealDao {
     @Transaction
     @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE is_own")
     fun getOwnWithCategoryTitle(): LiveData<List<AppealWithCategoryTitle>>

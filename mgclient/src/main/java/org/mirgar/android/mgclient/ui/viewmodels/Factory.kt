@@ -16,7 +16,7 @@ class Factory(private val context: Context) : ViewModelProvider.Factory {
                 isAssignableFrom(EditAppeal::class.java) -> EditAppeal(unitOfWork, context)
                 isAssignableFrom(MyAppealsViewModel::class.java) -> MyAppealsViewModel(unitOfWork)
                 isAssignableFrom(SelectCategory::class.java) -> SelectCategory(unitOfWork)
-                isAssignableFrom(Authorization::class.java) -> Authorization(unitOfWork.appealRepository)
+                isAssignableFrom(Authorization::class.java) -> Authorization(unitOfWork.appealRepository, context)
                 else -> throw UnsupportedOperationException("Unable to produce $name")
             }
         } as T

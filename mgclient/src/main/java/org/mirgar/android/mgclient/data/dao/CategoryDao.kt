@@ -11,7 +11,7 @@ import org.mirgar.android.mgclient.data.models.CategoryWithStatus
 import org.mirgar.android.mgclient.data.models.CategoryWithSubcategories
 
 @Dao
-interface CategoryDao {
+internal interface CategoryDao {
     @Transaction
     @Query("SELECT EXISTS(SELECT 1 FROM categories LIMIT 1)")
     suspend fun hasAny(): Boolean

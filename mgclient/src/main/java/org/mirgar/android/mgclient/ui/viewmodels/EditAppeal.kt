@@ -1,7 +1,6 @@
 package org.mirgar.android.mgclient.ui.viewmodels
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -13,12 +12,13 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.mirgar.android.common.adapters.doIfConfirm
+import org.mirgar.android.common.exception.ExceptionWithResources
 import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.data.UnitOfWork
 import org.mirgar.android.mgclient.data.entity.Appeal
 import java.util.*
 
+// ToDo: remove all works with [Context]
 class EditAppeal internal constructor(
     private val unitOfWork: UnitOfWork,
     private val context: Context
@@ -79,13 +79,13 @@ class EditAppeal internal constructor(
         }
     }
 
+    //ToDo: Consider move all location work to separate class
     fun fetchLocation() {
         fun useLocation(location: Location) {
             latitude.value = location.latitude
             longitude.value = location.longitude
         }
 
-        // TODO: Require location permission
         if (
             ActivityCompat.checkSelfPermission(
                 context,
@@ -96,10 +96,7 @@ class EditAppeal internal constructor(
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.error))
-                .setMessage(context.getString(R.string.location_noPremission))
-                .show()
+            _error.show(R.string.location_noPermission)
             return
         }
 
@@ -137,11 +134,11 @@ class EditAppeal internal constructor(
                 try {
                     unitOfWork.appealRepository.send(appealOriginal)
                 } catch (_: UserNotAuthenticatedException) {
-                    doIfConfirm(
-                        context,
-                        context.getString(R.string.authorization_required),
-                        goToAuthorization
-                    )
+                    _message.show(R.string.authorization_required, R.string.authorize) { _ ->
+                        goToAuthorization()
+                    }
+                } catch (ex: ExceptionWithResources) {
+                    _error.show(ex)
                 }
             }
         }
@@ -150,7 +147,10 @@ class EditAppeal internal constructor(
     //region Standard hooks
     override suspend fun init(id: Long, lifecycleOwner: LifecycleOwner) {
         unitOfWork.appealRepository.let { repo ->
-            if (!repo.hasAppeal(id)) TODO("Throw custom exception")
+            if (!repo.hasAppeal(id)) {
+                _error.show(R.string.appeal_not_found)
+                return@let
+            }
             repo.getOne(id).observe(lifecycleOwner) {
                 appealOriginal = it
             }

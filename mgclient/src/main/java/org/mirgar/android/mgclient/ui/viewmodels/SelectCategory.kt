@@ -4,18 +4,25 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.mirgar.android.common.view.BaseViewModel
 import org.mirgar.android.mgclient.data.UnitOfWork
 import org.mirgar.android.mgclient.data.models.CategoryWithStatus
 import org.mirgar.android.mgclient.ui.adapters.SelectCategoryAdapter
+import org.mirgar.android.mgclient.R
 import kotlin.properties.Delegates
 
-class SelectCategory(private val unitOfWork: UnitOfWork) : ViewModel() {
+class SelectCategory(unitOfWork: UnitOfWork) : BaseViewModel() {
 
     private val superId = MutableLiveData<Long?>()
 
-    val canMoveUp = Transformations.map(superId) { superId -> superId != null }
+    val canMoveUp = superId.map { superId -> superId != null }
 
-    private lateinit var collection: LiveData<List<CategoryWithStatus>>
+    private val categoryRepository = unitOfWork.categoryRepository
+    private val appealRepository = unitOfWork.appealRepository
+
+    private val collection = superId.distinctUntilChanged().switchMap {
+        categoryRepository.childrenWithStatus(it, appealId)
+    }
     var appealId by Delegates.notNull<Long>()
 
     lateinit var adapter: SelectCategoryAdapter
@@ -26,23 +33,26 @@ class SelectCategory(private val unitOfWork: UnitOfWork) : ViewModel() {
 
     fun setup(appealId: Long, owner: LifecycleOwner) {
         this.appealId = appealId
+
         val vm = this
 
-        superId.observe(owner) { newParentId ->
-            viewModelScope.launch {
-                if (vm::collection.isInitialized) collection.removeObservers(owner)
-                collection = unitOfWork.categoryRepository.childrenWithStatus(newParentId, appealId)
-                collection.observe(owner) { result ->
-                    if (!_isLoading.value!!) _isLoading.value = true
-                    adapter.submitList(result.map { SelectableCategory(it, vm) }) {
-                        _isLoading.value = false
-                    }
+        fun observe() {
+            collection.observe(owner) { result ->
+                if (!_isLoading.value!!) _isLoading.value = true
+                adapter.submitList(result.map { SelectableCategory(it, vm) }) {
+                    _isLoading.value = false
                 }
             }
         }
+
         viewModelScope.launch {
-            actualCategoryId = unitOfWork.appealRepository.categoryIdOf(appealId)
-            superId.value = actualCategoryId?.let { unitOfWork.categoryRepository.superIdOf(it) }
+            try {
+                actualCategoryId = appealRepository.categoryIdOf(appealId)
+                superId.value = actualCategoryId?.let { categoryRepository.superIdOf(it) }
+                categoryRepository.loadCategories()
+            } finally {
+                observe()
+            }
         }
     }
 
@@ -51,7 +61,7 @@ class SelectCategory(private val unitOfWork: UnitOfWork) : ViewModel() {
         viewModelScope.launch {
             appealCategoryMutex.withLock {
                 if (categoryId != actualCategoryId) {
-                    unitOfWork.appealRepository.setCategory(appealId, categoryId)
+                    appealRepository.setCategory(appealId, categoryId)
                     actualCategoryId = categoryId
                 }
             }
@@ -62,19 +72,17 @@ class SelectCategory(private val unitOfWork: UnitOfWork) : ViewModel() {
     fun setSuper(category: CategoryWithStatus) {
         viewModelScope.launch {
             superIdMutex.withLock {
-                if (superId.value == category.category.id) return@launch
                 if (category.hasSubcategories) {
                     superId.value = category.category.id
-                    // TODO: Say to user that selected category has no subcategories
-                }
+                } else _message.show(R.string.no_subcategories)
             }
         }
     }
 
     fun levelUp() {
-        if (superId.value != null) {
+        if (canMoveUp.value!!) {
             viewModelScope.launch {
-                superId.value = unitOfWork.categoryRepository.superIdOf(superId.value!!)
+                superId.value = categoryRepository.superIdOf(superId.value!!)
             }
         }
     }

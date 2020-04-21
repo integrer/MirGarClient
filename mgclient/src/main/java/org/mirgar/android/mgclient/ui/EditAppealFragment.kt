@@ -2,21 +2,21 @@ package org.mirgar.android.mgclient.ui
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.mirgar.android.common.adapters.doIfConfirm
+import org.mirgar.android.common.view.BaseFragment
 import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.ui.viewmodels.EditAppeal
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import java.lang.ref.WeakReference
 import org.mirgar.android.mgclient.databinding.FragmentEditAppealBinding as Binding
 
-class EditAppealFragment : Fragment() {
+class EditAppealFragment : BaseFragment() {
 
-    private val viewModel: EditAppeal by viewModels { viewModelFactory }
+    override val viewModel: EditAppeal by viewModels { viewModelFactory }
 
     private val args: EditAppealFragmentArgs by navArgs()
 

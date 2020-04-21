@@ -7,10 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import org.mirgar.android.common.exception.ExceptionWithResources
+import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.data.dao.AppealDao
 import org.mirgar.android.mgclient.data.entity.Appeal
 import java.io.FileInputStream
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.lang.Integer.parseInt
 import org.mirgar.android.mgclient.data.net.Repository as NetRepository
 import org.mirgar.android.mgclient.data.net.models.Appeal as NetAppeal
@@ -78,6 +81,7 @@ class AppealRepository internal constructor(
         }
     }
 
+    @Throws(ExceptionWithResources::class)
     suspend fun toTransferable(id: Long) = coroutineScope {
         val appealFuture = async(Dispatchers.IO) { dao.getByIdAsPlain(id) }
         val photosFuture = async(Dispatchers.IO) {
@@ -99,20 +103,22 @@ class AppealRepository internal constructor(
                 }
             }
         }
-        appealFuture.await()?.let { appeal ->
-            NetAppeal().apply {
-                this.id = appeal.serverId?.toInt()
-                name = appeal.title
-                description = appeal.description
-                cat_id = appeal.categoryId?.toInt()
-                    ?: throw NullPointerException("Category is required")
-                latitude = appeal.latitude
-                longitude = appeal.longitude
-                photos = photosFuture.await()
-            }
-        } ?: run {
+        try {
+            appealFuture.await()?.let { appeal ->
+                NetAppeal().apply {
+                    this.id = appeal.serverId?.toInt()
+                    name = appeal.title
+                    description = appeal.description
+                    cat_id = appeal.categoryId?.toInt()
+                        ?: throw ExceptionWithResources { getString(R.string.no_category) }
+                    latitude = appeal.latitude
+                    longitude = appeal.longitude
+                    photos = photosFuture.await()
+                }
+            } ?: throw ExceptionWithResources { getString(R.string.appeal_not_found) }
+        } catch (ex: Exception) {
             photosFuture.cancel()
-            throw NullPointerException("Appeal not found")
+            throw ex
         }
     }
 }

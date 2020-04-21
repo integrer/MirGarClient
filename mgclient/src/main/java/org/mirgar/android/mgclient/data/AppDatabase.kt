@@ -13,7 +13,7 @@ import org.mirgar.android.mgclient.data.entity.*
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getCategoryDao(): CategoryDao
 
     abstract fun getAppealDao(): AppealDao

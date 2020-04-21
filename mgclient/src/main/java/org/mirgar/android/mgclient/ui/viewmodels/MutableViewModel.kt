@@ -6,8 +6,11 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.mirgar.android.common.exception.ExceptionWithResources
+import org.mirgar.android.common.view.BaseViewModel
+import org.mirgar.android.mgclient.R
 
-abstract class MutableViewModel<ID> : ViewModel() {
+abstract class MutableViewModel<ID> : BaseViewModel() {
 
     private val _id = MutableLiveData<ID?>(null)
     val id: LiveData<ID?> = _id
@@ -56,7 +59,10 @@ abstract class MutableViewModel<ID> : ViewModel() {
                 .invokeOnCompletion { failure ->
                     failure?.also {
                         if (it !is CancellationException) {
-                            TODO("Say to user what happen")
+                            when(it) {
+                                is ExceptionWithResources -> _error.show(it)
+                                else -> _error.show(R.string.unknown_error)
+                            }
                         }
                     } ?: run {
                         // Job finished as well

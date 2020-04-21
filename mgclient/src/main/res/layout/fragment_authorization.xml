@@ -36,6 +36,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/username"
+                android:required="true"
+                app:error="@{viewModel.usernameError}"
                 android:text="@={viewModel.username}" />
 
             <EditText
@@ -43,6 +45,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/password"
+                android:required="true"
+                app:error="@{viewModel.passwordError}"
                 android:text="@={viewModel.password}" />
 
             <Button

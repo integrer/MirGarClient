@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import org.mirgar.android.common.view.BaseFragment
 import org.mirgar.android.mgclient.ui.adapters.AppealAdapter
 import org.mirgar.android.mgclient.ui.adapters.navigateToEditAppeal
 import org.mirgar.android.mgclient.ui.viewmodels.MyAppealsViewModel
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import org.mirgar.android.mgclient.databinding.FragmentMyAppealsBinding as Binding
 
-class MyAppealsFragment : Fragment() {
+class MyAppealsFragment : BaseFragment() {
 
     private lateinit var binding: Binding
 
-    private val viewModel: MyAppealsViewModel by viewModels { viewModelFactory }
+    override val viewModel: MyAppealsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

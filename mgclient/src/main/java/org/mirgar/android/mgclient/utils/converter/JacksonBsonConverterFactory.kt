@@ -53,6 +53,7 @@ internal class JacksonBsonResponseBodyConverter<T>(private val adapter: ObjectRe
         }
     }
 }
+
 internal class JacksonBsonRequestBodyConverter<T>(private val adapter: ObjectWriter) :
     Converter<T, RequestBody> {
     @Throws(IOException::class)

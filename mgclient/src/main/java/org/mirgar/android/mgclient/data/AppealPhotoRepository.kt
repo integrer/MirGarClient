@@ -5,7 +5,7 @@ import android.content.ContextWrapper
 import org.mirgar.android.mgclient.data.models.AppealPhotoWithFile
 import java.io.File
 
-class AppealPhotoRepository(db: AppDatabase, context: Context) {
+class AppealPhotoRepository internal constructor(db: AppDatabase, context: Context) {
     private val dao = db.getAppealPhotoDao()
 
     private val photosHome = ContextWrapper(context).filesDir.path + "/photos"

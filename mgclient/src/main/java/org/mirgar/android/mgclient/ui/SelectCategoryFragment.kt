@@ -2,19 +2,20 @@ package org.mirgar.android.mgclient.ui
 
 import android.os.Bundle
 import android.view.*
-import androidx.lifecycle.observe
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
+import org.mirgar.android.common.view.BaseFragment
 import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.ui.adapters.SelectCategoryAdapter
-import org.mirgar.android.mgclient.databinding.FragmentSelectCategoryBinding as Binding
-import org.mirgar.android.mgclient.ui.viewmodels.SelectCategory as ViewModel
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import java.lang.ref.WeakReference
+import org.mirgar.android.mgclient.databinding.FragmentSelectCategoryBinding as Binding
+import org.mirgar.android.mgclient.ui.viewmodels.SelectCategory as ViewModel
 
-class SelectCategoryFragment : Fragment() {
-    private val vm: ViewModel by viewModels { viewModelFactory }
+class SelectCategoryFragment : BaseFragment() {
+    override val viewModel: ViewModel by viewModels { viewModelFactory }
 
     private val args: SelectCategoryFragmentArgs by navArgs()
 
@@ -25,15 +26,17 @@ class SelectCategoryFragment : Fragment() {
     ): View? {
         val binding = Binding.inflate(inflater, container, false)
 
-        vm.adapter = SelectCategoryAdapter()
+        viewModel.adapter = SelectCategoryAdapter()
+
+        val externalVM = viewModel
 
         with(binding) {
-            viewModel = vm
+            viewModel = externalVM
             lifecycleOwner = viewLifecycleOwner
-            categoriesList.adapter = vm.adapter
+            categoriesList.adapter = externalVM.adapter
         }
 
-        vm.setup(args.appealId, viewLifecycleOwner)
+        viewModel.setup(args.appealId, viewLifecycleOwner)
 
         setHasOptionsMenu(true)
 
@@ -45,15 +48,16 @@ class SelectCategoryFragment : Fragment() {
 
         val levelUpItem = WeakReference(menu.findItem(R.id.level_up))
 
-        vm.canMoveUp.observe(viewLifecycleOwner) { canMoveUp ->
-            levelUpItem.get()?.apply { isEnabled = canMoveUp }
-        }
+        Transformations.distinctUntilChanged(viewModel.canMoveUp)
+            .observe(viewLifecycleOwner) { canMoveUp ->
+                levelUpItem.get()?.isEnabled = canMoveUp
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.level_up -> {
-                vm.levelUp()
+                viewModel.levelUp()
                 true
             }
             else -> false
