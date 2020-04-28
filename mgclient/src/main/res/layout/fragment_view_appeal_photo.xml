@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.mirgar.android.mgclient.ui.ViewAppealPhotoFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.mirgar.android.mgclient.ui.viewmodels.ViewAppealPhoto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:layoutDirection="ltr">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_alt"
+            app:orElse="@{@drawable/ic_broken_image_24dp}"
+            app:tryLoadImageFrom="@{viewModel.uri}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cutout_safe_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/delete_button"
+                android:layout_width="@dimen/round_button_small"
+                android:layout_height="@dimen/round_button_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/delete_button_alt"
+                android:scaleType="fitCenter"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:onClick_actionConsequence="@{@string/consequence_deleteImage}"
+                app:onClick_ifConfirmed="@{viewModel::delete}"
+                app:srcCompat="@drawable/ic_delete_24dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

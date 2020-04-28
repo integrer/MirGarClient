@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
-import org.mirgar.android.common.view.BaseFragment
+import org.mirgar.android.common.ui.MessagingFragment
 import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.ui.adapters.SelectCategoryAdapter
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference
 import org.mirgar.android.mgclient.databinding.FragmentSelectCategoryBinding as Binding
 import org.mirgar.android.mgclient.ui.viewmodels.SelectCategory as ViewModel
 
-class SelectCategoryFragment : BaseFragment() {
+class SelectCategoryFragment : MessagingFragment() {
     override val viewModel: ViewModel by viewModels { viewModelFactory }
 
     private val args: SelectCategoryFragmentArgs by navArgs()

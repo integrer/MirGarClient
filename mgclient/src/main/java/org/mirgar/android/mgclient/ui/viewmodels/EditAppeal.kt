@@ -47,8 +47,9 @@ class EditAppeal internal constructor(
     val isLocationFetching: LiveData<Boolean> = _isLocationFetching
 
     lateinit var goToAuthorization: () -> Unit
+    lateinit var goBack: () -> Unit
 
-    private val appealMerger: MediatorLiveData<Appeal> = with(MediatorLiveData<Appeal>()) {
+    private val appealMerger: MediatorLiveData<Appeal> = MediatorLiveData<Appeal>().apply {
         value = Appeal()
         addSource(title) { newVal ->
             value?.let { if (it.title != newVal) value = it.copy(title = newVal) }
@@ -62,7 +63,6 @@ class EditAppeal internal constructor(
         addSource(latitude) { newVal ->
             value?.let { if (it.latitude != newVal) value = it.copy(latitude = newVal) }
         }
-        this
     }
 
     private fun initBindings(appeal: Appeal) {
@@ -72,6 +72,8 @@ class EditAppeal internal constructor(
         longitude.value = appeal.longitude
         latitude.value = appeal.latitude
     }
+
+    val imageListViewModel = ImageList(unitOfWork.appealPhotoRepository)
 
     fun delete() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -132,13 +134,17 @@ class EditAppeal internal constructor(
         if (isSaved.value == true) {
             viewModelScope.launch {
                 try {
-                    unitOfWork.appealRepository.send(appealOriginal)
+                    unitOfWork.appealRepository.send(appealOriginal, _message)
+                    _message.show(R.string.appeal_saved)
+                    goBack()
                 } catch (_: UserNotAuthenticatedException) {
-                    _message.show(R.string.authorization_required, R.string.authorize) { _ ->
+                    _message.show(R.string.authorization_required, R.string.authorize) {
                         goToAuthorization()
                     }
                 } catch (ex: ExceptionWithResources) {
                     _error.show(ex)
+                } catch (_: Exception) {
+                    _error.show({ getString(R.string.unknown_error) })
                 }
             }
         }

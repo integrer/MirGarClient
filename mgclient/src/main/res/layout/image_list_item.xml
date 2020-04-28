@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="org.mirgar.android.mgclient.ui.viewmodels.ImageItem" />
+
+        <import type="org.mirgar.android.mgclient.ui.viewmodels.RegularImageItem" />
+
+        <import type="org.mirgar.android.mgclient.ui.viewmodels.AddImageItem" />
+
+        <variable
+            name="viewModel"
+            type="ImageItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:contentDescription="@string/appeal_selectPhoto"
+            android:onClick="@{() -> viewModel.click()}"
+            app:isGone="@{!viewModel.isRegular}"
+            app:orElse="@{@drawable/ic_broken_image_black_24dp}"
+            app:tryLoadImageFrom="@{ImageItem.tryGetUri(viewModel)}" />
+
+        <ImageView
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:contentDescription="@string/appeal_addPhoto"
+            android:onClick="@{() -> viewModel.click()}"
+            android:src="@drawable/ic_add_a_photo_black_24dp"
+            app:isGone="@{viewModel.isRegular}" />
+    </LinearLayout>
+</layout>

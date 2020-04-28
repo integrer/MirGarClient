@@ -1,11 +1,7 @@
 package org.mirgar.android.mgclient.data.net
 
-import org.mirgar.android.mgclient.data.net.models.Appeal
-import org.mirgar.android.mgclient.data.net.models.AuthResponse
+import org.mirgar.android.mgclient.data.net.models.*
 import retrofit2.Call
-
-import org.mirgar.android.mgclient.data.net.models.CategoryContainer
-import org.mirgar.android.mgclient.data.net.models.JoomlaAPIResponse
 import retrofit2.http.*
 
 interface RestClient {
@@ -22,6 +18,6 @@ interface RestClient {
     @POST("index.php?option=com_api&app=mirgar&resource=appeal&format=raw")
     fun sendAppeal(
         @Header("Authorization") authorization: String,
-        @Body appeal: Appeal
-    ): Call<Int>
+        @Body appeal: AppealOut
+    ): Call<JoomlaAPIResponse<AppealIn>>
 }

@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import org.mirgar.android.common.view.BaseFragment
+import org.mirgar.android.common.ui.MessagingFragment
 import org.mirgar.android.mgclient.ui.adapters.AppealAdapter
 import org.mirgar.android.mgclient.ui.adapters.navigateToEditAppeal
 import org.mirgar.android.mgclient.ui.viewmodels.MyAppealsViewModel
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import org.mirgar.android.mgclient.databinding.FragmentMyAppealsBinding as Binding
 
-class MyAppealsFragment : BaseFragment() {
+class MyAppealsFragment : MessagingFragment() {
 
     private lateinit var binding: Binding
 

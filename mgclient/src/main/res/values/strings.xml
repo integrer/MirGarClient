@@ -26,4 +26,13 @@
     <string name="password_required">Password is required</string>
     <string name="authorize">Authorize</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="camera_app_not_found">Camera app not found in system</string>
+    <string name="delete_button_alt">Delete</string>
+    <string name="back_button_alt">Back</string>
+    <string name="image_alt">Image</string>
+    <string name="consequence_deleteImage">Image will be deleted.</string>
+    <string name="file_not_found">File %1$s not found!</string>
+    <string name="appeal_saved">Appeal saved successfuly</string>
+    <string name="appeal_addPhoto">Add photo</string>
+    <string name="appeal_selectPhoto">Select photo</string>
 </resources>

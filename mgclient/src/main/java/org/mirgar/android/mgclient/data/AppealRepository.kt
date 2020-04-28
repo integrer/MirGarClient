@@ -6,18 +6,18 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mirgar.android.common.exception.ExceptionWithResources
+import org.mirgar.android.common.util.messaging.MessageDispatcher
 import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.data.dao.AppealDao
 import org.mirgar.android.mgclient.data.entity.Appeal
 import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.lang.Exception
 import java.lang.Integer.parseInt
 import org.mirgar.android.mgclient.data.net.Repository as NetRepository
-import org.mirgar.android.mgclient.data.net.models.Appeal as NetAppeal
-import org.mirgar.android.mgclient.data.net.models.AppealPhoto as NetPhoto
+import org.mirgar.android.mgclient.data.net.models.AppealOut as NetAppeal
+import org.mirgar.android.mgclient.data.net.models.AppealPhotoOut as NetPhoto
 
 class AppealRepository internal constructor(
     private val db: AppDatabase,
@@ -68,54 +68,44 @@ class AppealRepository internal constructor(
         }
     }
 
-    @Throws(UserNotAuthenticatedException::class)
-    suspend fun send(appeal: Appeal) = coroutineScope {
+    @Throws(UserNotAuthenticatedException::class, ExceptionWithResources::class)
+    suspend fun send(appeal: Appeal, messageChannel: MessageDispatcher) {
         val auth = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
             .getString("auth", null)
             ?: throw UserNotAuthenticatedException()
-        val sendingDeferred = async(Dispatchers.IO) {
-            netRepository.send(auth, toTransferable(appeal.id))
-        }
-        launch(Dispatchers.IO) {
-            dao.update(appeal.copy(serverId = sendingDeferred.await().toLong()))
-        }
+        val transferableAppeal = toTransferable(appeal.id, messageChannel)
+        val appealOnServer = netRepository.send(auth, transferableAppeal)
+        dao.update(appeal.copy(serverId = appealOnServer.id.toLong()))
     }
 
     @Throws(ExceptionWithResources::class)
-    suspend fun toTransferable(id: Long) = coroutineScope {
+    suspend fun toTransferable(id: Long, messageChannel: MessageDispatcher) = coroutineScope {
         val appealFuture = async(Dispatchers.IO) { dao.getByIdAsPlain(id) }
         val photosFuture = async(Dispatchers.IO) {
             unitOfWork.appealPhotoRepository.getPhotosOfAppeal(id).map { photo ->
-                photo to async(Dispatchers.IO) {
+                photo.appealPhoto to async(Dispatchers.IO) {
                     try {
                         FileInputStream(photo.file).use { it.readBytes() }
                     } catch (_: FileNotFoundException) {
+                        withContext(Dispatchers.Main) {
+                            messageChannel.show({
+                                this.getString(
+                                    R.string.file_not_found,
+                                    photo.appealPhoto.fileName
+                                )
+                            })
+                        }
                         null
                     }
                 }
             }.mapNotNull { (photo, photoFileContentFuture) ->
-                photoFileContentFuture.await()?.let { byteArray ->
-                    NetPhoto().apply {
-                        ext = photo.appealPhoto.ext
-                        name = photo.appealPhoto.run { caption ?: created.toString() }
-                        content = byteArray
-                    }
-                }
+                photoFileContentFuture.await()?.let { NetPhoto.from(photo, it) }
             }
         }
         try {
-            appealFuture.await()?.let { appeal ->
-                NetAppeal().apply {
-                    this.id = appeal.serverId?.toInt()
-                    name = appeal.title
-                    description = appeal.description
-                    cat_id = appeal.categoryId?.toInt()
-                        ?: throw ExceptionWithResources { getString(R.string.no_category) }
-                    latitude = appeal.latitude
-                    longitude = appeal.longitude
-                    photos = photosFuture.await()
-                }
-            } ?: throw ExceptionWithResources { getString(R.string.appeal_not_found) }
+            val appeal = appealFuture.await()
+                ?: throw ExceptionWithResources { getString(R.string.appeal_not_found) }
+            NetAppeal.from(appeal, photosFuture.await())
         } catch (ex: Exception) {
             photosFuture.cancel()
             throw ex

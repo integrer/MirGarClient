@@ -13,7 +13,7 @@ import java.util.*
     indices = [Index("aphoto_appeal_id")]
 )
 data class AppealPhoto(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "aphoto_id") val id: Long,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "aphoto_id") val id: Long = 0L,
     @ColumnInfo(name = "aphoto_appeal_id") val appealId: Long,
     @ColumnInfo(name = "aphoto_filename") val fileName: String,
     @ColumnInfo(name = "aphoto_caption") val caption: String? = null,

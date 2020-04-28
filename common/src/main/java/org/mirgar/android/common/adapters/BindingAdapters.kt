@@ -5,9 +5,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.MainThread
 import androidx.databinding.BindingAdapter
-
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.mirgar.android.common.R
@@ -51,4 +50,9 @@ fun doIfConfirm(context: Context, consequence: CharSequence, action: () -> Unit)
         .setPositiveButton(android.R.string.yes) { _, _ -> action() }
         .setNegativeButton(android.R.string.cancel) { _, _ -> }
         .show()
+}
+
+@BindingAdapter("adapter")
+fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
+    view.adapter = adapter
 }

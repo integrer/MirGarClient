@@ -23,12 +23,7 @@ class SelectCategoryAdapter : ListAdapter<SelectableCategory, SelectCategoryAdap
         colorDefault = ContextCompat.getColor(context, android.R.color.black)
     }
 
-    class ViewHolder(
-        private val binding: Binding,
-        private val colorAccent: Int,
-        private val colorDefault: Int
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: Binding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(viewModel: SelectableCategory) {
             with(binding) {
                 this.viewModel = viewModel
@@ -46,9 +41,7 @@ class SelectCategoryAdapter : ListAdapter<SelectableCategory, SelectCategoryAdap
                 R.layout.list_item_selectable,
                 parent,
                 false
-            ),
-            colorAccent,
-            colorDefault
+            )
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -1,13 +1,13 @@
 package org.mirgar.android.mgclient.data.net.models
 
-import java.util.Date
+import java.util.*
 import kotlin.properties.Delegates
 
-class Appeal {
-    var id: Int? = null
+class AppealIn {
+    var id: Int by Delegates.notNull()
     lateinit var name: String
     var description: String? = null
-    var cat_id by Delegates.notNull<Int>()
+    var cat_id: Int by Delegates.notNull()
     var type_id: Int? = null
     var user_id: Int? = null
     var answer: String? = null
@@ -17,11 +17,9 @@ class Appeal {
     var address: String? = null
     var latitude: Double? = null
     var longitude: Double? = null
-    lateinit var photos: List<AppealPhoto>
 }
 
-class AppealPhoto {
-    lateinit var name: String
-    lateinit var ext: String
-    lateinit var content: ByteArray
+class AppealPhotoIn {
+    var id: Int by Delegates.notNull()
+    lateinit var related_path: String
 }

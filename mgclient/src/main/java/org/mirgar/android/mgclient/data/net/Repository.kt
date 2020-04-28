@@ -1,6 +1,7 @@
 package org.mirgar.android.mgclient.data.net
 
-import org.mirgar.android.mgclient.data.net.models.Appeal
+import org.mirgar.android.mgclient.data.net.models.AppealIn
+import org.mirgar.android.mgclient.data.net.models.AppealOut
 import retrofit2.await
 import org.mirgar.android.mgclient.data.entity.Category as DBCategory
 
@@ -38,9 +39,9 @@ class Repository {
                 response.data
             }
 
-    suspend fun send(auth: String, appeal: Appeal): Int {
+    suspend fun send(auth: String, appealOut: AppealOut): AppealIn {
         return retrofitFactory.default.create(RestClient::class.java)
-            .sendAppeal("Bearer $auth", appeal)
-            .await()
+            .sendAppeal("Bearer $auth", appealOut)
+            .await().data
     }
 }

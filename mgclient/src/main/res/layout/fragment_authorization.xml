@@ -38,6 +38,7 @@
                 android:hint="@string/username"
                 android:required="true"
                 app:error="@{viewModel.usernameError}"
+                android:autofillHints="emailAddress,login"
                 android:text="@={viewModel.username}" />
 
             <EditText
@@ -47,6 +48,7 @@
                 android:hint="@string/password"
                 android:required="true"
                 app:error="@{viewModel.passwordError}"
+                android:importantForAutofill="no"
                 android:text="@={viewModel.password}" />
 
             <Button

@@ -7,10 +7,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.mirgar.android.common.exception.ExceptionWithResources
-import org.mirgar.android.common.view.BaseViewModel
+import org.mirgar.android.common.viewmodel.MessagingViewModel
 import org.mirgar.android.mgclient.R
 
-abstract class MutableViewModel<ID> : BaseViewModel() {
+abstract class MutableViewModel<ID> : MessagingViewModel() {
 
     private val _id = MutableLiveData<ID?>(null)
     val id: LiveData<ID?> = _id

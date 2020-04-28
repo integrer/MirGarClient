@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_dst_edit_appeal_to_dst_fragment_authorization"
             app:destination="@id/dst_fragment_authorization" />
+        <action
+            android:id="@+id/action_dst_edit_appeal_to_viewAppealPhotoFragment"
+            app:destination="@id/viewAppealPhotoFragment" />
     </fragment>
 
     <fragment
@@ -55,6 +58,14 @@
         android:name="org.mirgar.android.mgclient.ui.AuthorizationFragment"
         android:label="fragment_authorization"
         tools:layout="@layout/fragment_authorization" />
+    <fragment
+        android:id="@+id/viewAppealPhotoFragment"
+        android:name="org.mirgar.android.mgclient.ui.ViewAppealPhotoFragment"
+        android:label="ViewAppealPhotoFragment">
+        <argument
+            android:name="photoId"
+            app:argType="long" />
+    </fragment>
 
     <!--    <fragment-->
 <!--        android:id="@+id/navigation_dashboard"-->

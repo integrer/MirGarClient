@@ -1,4 +1,4 @@
-package org.mirgar.android.common.view
+package org.mirgar.android.common.util.messaging
 
 import android.content.Context
 import android.view.View
@@ -11,7 +11,11 @@ class MessageDispatcher {
     val event: LiveData<SnackbarSuite> = _event
 
     fun show(msgGen: ContextTextGenerator, action: SnackbarActionSuite? = null) {
-        _event.value = SnackbarSuite(msgGen, action)
+        _event.value =
+            SnackbarSuite(
+                msgGen,
+                action
+            )
     }
 
     fun show(text: CharSequence, action: SnackbarActionSuite? = null) {
@@ -115,24 +119,42 @@ class MessageDispatcher {
     }
 
 
-    private fun generatorOf(text: CharSequence) = ContextTextGeneratorText(text)
+    private fun generatorOf(text: CharSequence) =
+        ContextTextGeneratorText(
+            text
+        )
 
-    private fun generatorOf(responseId: Int) = ContextTextGeneratorResId(responseId)
+    private fun generatorOf(responseId: Int) =
+        ContextTextGeneratorResId(
+            responseId
+        )
 
-    private fun generatorOf(lambda: Context.() -> CharSequence) = ContextTextGeneratorLambda(lambda)
+    private fun generatorOf(lambda: Context.() -> CharSequence) =
+        ContextTextGeneratorLambda(
+            lambda
+        )
 
 
     private fun actionSuiteOf(gen: ContextTextGenerator, action: (View) -> Unit) =
         SnackbarActionSuite(gen, action)
 
     private fun actionSuiteOf(text: CharSequence, action: (View) -> Unit) =
-        SnackbarActionSuite(generatorOf(text), action)
+        SnackbarActionSuite(
+            generatorOf(text),
+            action
+        )
 
     private fun actionSuiteOf(responseId: Int, action: (View) -> Unit) =
-        SnackbarActionSuite(generatorOf(responseId), action)
+        SnackbarActionSuite(
+            generatorOf(responseId),
+            action
+        )
 
     private fun actionSuiteOf(lambda: Context.() -> CharSequence, action: (View) -> Unit) =
-        SnackbarActionSuite(generatorOf(lambda), action)
+        SnackbarActionSuite(
+            generatorOf(lambda),
+            action
+        )
 
 
     private class ContextTextGeneratorLambda(
@@ -147,7 +169,8 @@ class MessageDispatcher {
         override fun getText(context: Context) = context.getString(responseId)
     }
 
-    private class ContextTextGeneratorText(val text: CharSequence) : ContextTextGenerator {
+    private class ContextTextGeneratorText(val text: CharSequence) :
+        ContextTextGenerator {
         override fun getText(context: Context) = text
     }
 }

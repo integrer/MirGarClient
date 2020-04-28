@@ -48,6 +48,7 @@ dependencies {
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlin_ver"
+    implementation "org.jetbrains.kotlin:kotlin-script-runtime:$rootProject.kotlin_ver"
 
     //region android
     implementation "androidx.appcompat:appcompat:$rootProject.androidx_ver.appcompat"

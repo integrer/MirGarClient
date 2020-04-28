@@ -6,6 +6,10 @@
         <variable
             name="viewmodel"
             type="org.mirgar.android.mgclient.ui.viewmodels.EditAppeal" />
+
+        <variable
+            name="imageListViewModel"
+            type="org.mirgar.android.mgclient.ui.viewmodels.ImageList" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -76,7 +80,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{viewmodel.longitude.toString()}" />
-            </LinearLayout>
+                </LinearLayout>
+
+                <include
+                    layout="@layout/image_list"
+                    app:viewModel="@{imageListViewModel}" />
 
             </LinearLayout>
         </ScrollView>

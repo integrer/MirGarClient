@@ -4,14 +4,14 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.mirgar.android.common.view.BaseViewModel
+import org.mirgar.android.common.viewmodel.MessagingViewModel
+import org.mirgar.android.mgclient.R
 import org.mirgar.android.mgclient.data.UnitOfWork
 import org.mirgar.android.mgclient.data.models.CategoryWithStatus
 import org.mirgar.android.mgclient.ui.adapters.SelectCategoryAdapter
-import org.mirgar.android.mgclient.R
 import kotlin.properties.Delegates
 
-class SelectCategory(unitOfWork: UnitOfWork) : BaseViewModel() {
+class SelectCategory(unitOfWork: UnitOfWork) : MessagingViewModel() {
 
     private val superId = MutableLiveData<Long?>()
 

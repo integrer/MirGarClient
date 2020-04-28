@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="item_selected">Элемент выбран</string>
+    <string name="item">Элемент</string>
+    <string name="continue_question">Продолжить?</string>
+    <string name="error">Ошибка</string>
+</resources>

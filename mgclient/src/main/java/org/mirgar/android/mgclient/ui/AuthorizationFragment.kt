@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import org.mirgar.android.common.view.BaseFragment
+import org.mirgar.android.common.ui.MessagingFragment
 import org.mirgar.android.mgclient.ui.viewmodels.Authorization
 import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import org.mirgar.android.mgclient.databinding.FragmentAuthorizationBinding as Binding
 
-class AuthorizationFragment : BaseFragment() {
+class AuthorizationFragment : MessagingFragment() {
 
     override val viewModel: Authorization by viewModels { viewModelFactory }
 

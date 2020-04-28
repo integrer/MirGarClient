@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мир Гармонии</string>
+    <string name="title_my_appeals">Мои обращения</string>
+    <string name="title_dashboard">Обращения на сайте</string>
+    <string name="title_notifications">Уведомления</string>
+    <string name="no_own_appeals">Обращения отсутствуют</string>
+    <string name="edit_appeal_input_heading">Заголовок</string>
+    <string name="edit_appeal_btn_select_cat">Выбрать категорию</string>
+    <string name="title_edit_appeal">Редактировать обращение</string>
+    <string name="delete">Удалить</string>
+    <string name="edit_appeal_input_description">Введите краткое описание</string>
+    <string name="level_up">На уровень вверх</string>
+    <string name="consequence_appealDelete">Обращение будет удалено.</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="send_appeal">Отправить обращение</string>
+    <string name="authorization_required">Требуется авторизация.</string>
+    <string name="my_location">Моё местоположение</string>
+    <string name="error">Ошибка</string>
+    <string name="location_noPermission">Требуется разрешение на доступ к местоположению устройства</string>
+    <string name="no_category">Категория не выбрана</string>
+    <string name="appeal_not_found">Обращение не найдено</string>
+    <string name="no_subcategories">Выбранная категория не имеет подкатегорий</string>
+    <string name="username_required">Обязательное поле</string>
+    <string name="password_required">Обязательное поле</string>
+    <string name="authorize">Авторизоваться</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="camera_app_not_found">Приложение камеры не найдено в вашей системе</string>
+    <string name="delete_button_alt">Удалить</string>
+    <string name="back_button_alt">Назад</string>
+    <string name="image_alt">Изображение</string>
+    <string name="consequence_deleteImage">Изображение будет удалено.</string>
+    <string name="file_not_found">Файл %1$s не найден!</string>
+    <string name="appeal_saved">Обращение сохранено успешно</string>
+    <string name="appeal_addPhoto">Добавить фото</string>
+    <string name="appeal_selectPhoto">Выбрать фото</string>
+</resources>

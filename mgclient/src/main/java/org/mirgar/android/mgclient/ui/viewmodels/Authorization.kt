@@ -1,16 +1,19 @@
 package org.mirgar.android.mgclient.ui.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.mirgar.android.common.view.BaseViewModel
-import org.mirgar.android.mgclient.data.AppealRepository
+import org.mirgar.android.common.viewmodel.MessagingViewModel
 import org.mirgar.android.mgclient.R
+import org.mirgar.android.mgclient.data.AppealRepository
 
 class Authorization(
     private val appealRepository: AppealRepository,
     private val context: Context
-) : BaseViewModel() {
+) : MessagingViewModel() {
     val username = MutableLiveData("")
     val usernameError: LiveData<String?> = username.map { v ->
         if (v.isNullOrBlank())
