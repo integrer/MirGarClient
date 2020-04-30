@@ -4,8 +4,6 @@ import android.view.View
 import androidx.navigation.findNavController
 
 import org.mirgar.android.mgclient.data.entity.Appeal
-import org.mirgar.android.mgclient.ui.EditAppealFragment
-import org.mirgar.android.mgclient.ui.EditAppealFragmentDirections
 import org.mirgar.android.mgclient.ui.MyAppealsFragmentDirections
 
 fun View.navigateToEditAppeal(appeal: Appeal) {

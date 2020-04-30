@@ -3,5 +3,6 @@
     <string name="item_selected">Элемент выбран</string>
     <string name="item">Элемент</string>
     <string name="continue_question">Продолжить?</string>
+    <string name="file_not_found">Файл %1$s не найден!</string>
     <string name="error">Ошибка</string>
 </resources>

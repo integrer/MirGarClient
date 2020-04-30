@@ -2,23 +2,25 @@ package org.mirgar.android.mgclient.data
 
 import android.content.Context
 import androidx.room.*
-import org.mirgar.android.common.data.Converters
+import org.mirgar.android.common.data.Converters as CommonConverters
 import org.mirgar.android.mgclient.cfg.DB
 import org.mirgar.android.mgclient.data.dao.*
 import org.mirgar.android.mgclient.data.entity.*
 
 @Database(
-    entities = [Appeal::class, AppealPhoto::class, Category::class],
+    entities = [Appeal::class, AppealPhoto::class, Category::class, RemoteAppealPhoto::class],
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(CommonConverters::class, Converters::class)
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getCategoryDao(): CategoryDao
 
     abstract fun getAppealDao(): AppealDao
 
     abstract fun getAppealPhotoDao(): AppealPhotoDao
+
+    abstract fun getRemoteAppealPhotoDao(): RemoteAppealPhotoDao
 
     companion object {
         @Volatile

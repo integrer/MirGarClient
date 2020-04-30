@@ -63,6 +63,7 @@
                 android:layout_gravity="center_vertical"
                 app:onClick_ifConfirmed="@{viewModel::delete}"
                 app:onClick_actionConsequence="@{@string/consequence_appealDelete}"
+                app:isGone="@{!viewModel.canBeDeleted}"
                 android:theme="@style/AppTheme"
                 android:src="@drawable/ic_delete_24dp"
                 android:contentDescription="@string/delete" />

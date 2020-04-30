@@ -9,6 +9,7 @@ import org.mirgar.android.mgclient.data.entity.Appeal as DBAppeal
 import org.mirgar.android.mgclient.data.entity.AppealPhoto as DBAppealPhoto
 
 class AppealOut {
+    var id: Long? = null
     lateinit var name: String
     var description: String? = null
     var cat_id by Delegates.notNull<Int>()
@@ -18,6 +19,7 @@ class AppealOut {
 
     companion object {
         fun from(appeal: DBAppeal, photoOuts: List<AppealPhotoOut> = listOf()) = AppealOut().apply {
+            id = appeal.remoteId
             name = appeal.title
             description = appeal.description
             cat_id = appeal.categoryId?.toInt()

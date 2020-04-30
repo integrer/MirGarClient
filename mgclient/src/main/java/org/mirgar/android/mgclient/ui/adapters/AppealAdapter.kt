@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import org.mirgar.android.mgclient.R
+import org.mirgar.android.mgclient.data.AppealStatus
 import org.mirgar.android.mgclient.data.UnitOfWork
-import org.mirgar.android.mgclient.data.models.AppealWithCategoryTitle
+import org.mirgar.android.mgclient.data.models.AppealPreview
 import org.mirgar.android.mgclient.ui.viewmodels.Appeal
 import org.mirgar.android.mgclient.databinding.ListItemAppealBinding as Binding
 
-class AppealAdapter(context: Context) : ListAdapter<AppealWithCategoryTitle, AppealAdapter.ViewHolder>(
-    AppealWithCategoryTitle.ItemCallback
+class AppealAdapter(context: Context) : ListAdapter<AppealPreview, AppealAdapter.ViewHolder>(
+    AppealPreview.ItemCallback
 ) {
     private val unitOfWork = UnitOfWork(context)
 
@@ -22,16 +23,12 @@ class AppealAdapter(context: Context) : ListAdapter<AppealWithCategoryTitle, App
         init {
             binding.body.setOnClickListener { v ->
                 binding.viewModel?.appeal?.apply {
-                    if (serverId == null) {
-                        v.navigateToEditAppeal(this)
-                    } else {
-                        TODO("Not yet implemented")
-                    }
+                    v.navigateToEditAppeal(this)
                 }
             }
         }
 
-        fun bind(appeal: AppealWithCategoryTitle, unitOfWork: UnitOfWork) {
+        fun bind(appeal: AppealPreview, unitOfWork: UnitOfWork) {
             with(binding) {
                 viewModel = Appeal(appeal, unitOfWork)
                 executePendingBindings()

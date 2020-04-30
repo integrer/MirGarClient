@@ -13,7 +13,7 @@ class Repository {
             .let { result ->
                 if (result.err_code?.isNotBlank() == true || result.err_msg?.isNotBlank() == true)
                     TODO("Say to user what happen")
-                result.data
+                result.data.let(::requireNotNull)
             }.let { container ->
                 container.groups.asSequence().flatMap { group ->
                     group.items.asSequence()
@@ -36,12 +36,18 @@ class Repository {
                     || response.err_msg?.isNotBlank() == true
                 )
                     TODO("Say to user what happen")
-                response.data
+                response.data.let(::requireNotNull)
             }
 
     suspend fun send(auth: String, appealOut: AppealOut): AppealIn {
         return retrofitFactory.default.create(RestClient::class.java)
             .sendAppeal("Bearer $auth", appealOut)
-            .await().data
+            .await().data.let(::requireNotNull)
+    }
+
+    suspend fun getAllAppeals(): List<AppealIn> {
+        val result = retrofitFactory.default.create(RestClient::class.java)
+            .getAllAppeals().await()
+        return requireNotNull(result.data)
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewmodel"
@@ -10,17 +9,13 @@
         <variable
             name="imageListViewModel"
             type="org.mirgar.android.mgclient.ui.viewmodels.ImageList" />
-
-        <variable
-            name="selectCategoryListener"
-            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/edit_appeal_layout"
+        android:id="@+id/view_appeal_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:isGone="@{!viewmodel.canBeEdited}">
+        app:isGone="@{viewmodel.canBeEdited}">
 
         <ScrollView
             android:id="@+id/form_scroll"
@@ -34,57 +29,35 @@
                 android:layout_marginStart="@dimen/card_side_margin"
                 android:layout_marginEnd="@dimen/card_side_margin"
                 android:orientation="vertical"
-                tools:context=".ui.AppealDetailsFragment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"  >
-
-
-                <EditText
-                    android:id="@+id/heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textShortMessage"
-                    android:importantForAutofill="no"
-                    android:text="@={viewmodel.title}"
-                    android:hint="@string/edit_appeal_input_heading" />
-
-                <EditText
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:importantForAutofill="no"
-                    android:text="@={viewmodel.description}"
-                    android:hint="@string/edit_appeal_input_description"/>
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_normal"
                     android:textAppearance="?attr/textAppearanceBody1"
-                    android:text="@{viewmodel.categoryName}"/>
+                    android:text="@{viewmodel.title}" />
 
-                <Button
-                    android:id="@+id/select_category"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="@{selectCategoryListener}"
-                    android:enabled="@{viewmodel.isSaved}"
-                    android:text="@string/edit_appeal_btn_select_cat"/>
+                    android:layout_margin="@dimen/margin_normal"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:text="@{viewmodel.description}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_normal"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:text="@{viewmodel.categoryName}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_my_location_black_24dp"
-                        android:contentDescription="@string/my_location"
-                        android:onClick="@{() -> viewmodel.fetchLocation()}"
-                        android:enabled="@{viewmodel.isSaved &amp;&amp; !viewmodel.isLocationFetching}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -101,26 +74,11 @@
                         android:text="@{viewmodel.longitude.toString()}" />
                 </LinearLayout>
 
-                <include
-                    layout="@layout/image_list"
-                    app:viewModel="@{imageListViewModel}" />
+                <!--TODO: Add images list-->
 
             </LinearLayout>
         </ScrollView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:theme="@style/AppTheme"
-            android:src="@drawable/ic_save_24dp"
-            android:onClick="@{() -> viewmodel.save()}"
-            app:isGone="@{!viewmodel.hasChanges}"
-            app:fabSize="normal"
-            app:layout_anchor="@id/form_scroll"
-            app:layout_anchorGravity="bottom|right|end" />
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

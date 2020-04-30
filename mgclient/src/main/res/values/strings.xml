@@ -6,20 +6,21 @@
     <string name="no_own_appeals">There are no appeals yet</string>
     <string name="edit_appeal_input_heading">Heading</string>
     <string name="edit_appeal_btn_select_cat">Select category</string>
-    <string name="title_edit_appeal">Edit appeal</string>
+    <string name="title_appeal_details">Appeal</string>
     <string name="delete">Delete</string>
     <string name="edit_appeal_input_description">Type short description</string>
     <string name="level_up">Level up</string>
     <string name="consequence_appealDelete">Appeal will be deleted.</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="login" >Login</string>
+    <string name="login">Log in</string>
     <string name="send_appeal">Send appeal</string>
     <string name="authorization_required">Authorization is required.</string>
     <string name="my_location">My location</string>
     <string name="error">Error</string>
     <string name="location_noPermission">Location permission is required</string>
     <string name="no_category">Category is required</string>
+    <string name="no_category_selected">No category is selected</string>
     <string name="appeal_not_found">Appeal not found</string>
     <string name="no_subcategories">Selected category has no subcategories</string>
     <string name="username_required">Username is required</string>
@@ -31,8 +32,11 @@
     <string name="back_button_alt">Back</string>
     <string name="image_alt">Image</string>
     <string name="consequence_deleteImage">Image will be deleted.</string>
-    <string name="file_not_found">File %1$s not found!</string>
     <string name="appeal_saved">Appeal saved successfuly</string>
     <string name="appeal_addPhoto">Add photo</string>
     <string name="appeal_selectPhoto">Select photo</string>
+    <string name="logout">Log out</string>
+    <string name="category_selection">Category Selection</string>
+    <string name="authorization">Authorization</string>
+    <string name="update">Update</string>
 </resources>

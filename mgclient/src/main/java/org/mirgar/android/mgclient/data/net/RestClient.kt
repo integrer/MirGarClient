@@ -20,4 +20,7 @@ interface RestClient {
         @Header("Authorization") authorization: String,
         @Body appeal: AppealOut
     ): Call<JoomlaAPIResponse<AppealIn>>
+
+    @GET("index.php?option=com_api&app=mirgar&resource=appeal&format=raw")
+    fun getAllAppeals(): Call<JoomlaAPIResponse<List<AppealIn>>>
 }

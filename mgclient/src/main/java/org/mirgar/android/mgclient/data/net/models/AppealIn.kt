@@ -17,6 +17,7 @@ class AppealIn {
     var address: String? = null
     var latitude: Double? = null
     var longitude: Double? = null
+    var photos: List<AppealPhotoIn> = listOf()
 }
 
 class AppealPhotoIn {

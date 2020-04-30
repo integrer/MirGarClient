@@ -8,18 +8,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.mirgar.android.common.adapters.doIfConfirm
 import org.mirgar.android.common.ui.AsyncActivity
-import org.mirgar.android.common.ui.MessagingFragment
 import org.mirgar.android.mgclient.R
-import org.mirgar.android.mgclient.ui.viewmodels.EditAppeal
-import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import java.lang.ref.WeakReference
-import org.mirgar.android.mgclient.databinding.FragmentEditAppealBinding as Binding
+import org.mirgar.android.mgclient.databinding.FragmentAppealDetailsBinding as Binding
+import org.mirgar.android.mgclient.ui.viewmodels.AppealDetailsViewModel as ItsViewModel
 
-class EditAppealFragment : MessagingFragment() {
+class AppealDetailsFragment : UnitOfWorkHolderFragment() {
 
-    override val viewModel: EditAppeal by viewModels { viewModelFactory }
+    override val viewModel: ItsViewModel by viewModels { viewModelFactory }
 
-    private val args: EditAppealFragmentArgs by navArgs()
+    private val args: AppealDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +27,15 @@ class EditAppealFragment : MessagingFragment() {
         viewModel.imageListViewModel.deferredActionResultFactory =
             (requireActivity() as AsyncActivity)::launchIntent
 
+        viewModel.categoryNameModifier = { it ?: requireContext().getString(R.string.no_category) }
+
         val binding = Binding.inflate(inflater, container, false)
             .apply {
                 viewmodel = viewModel
                 lifecycleOwner = viewLifecycleOwner
                 imageListViewModel = viewModel.imageListViewModel
-                selectCategory.setOnClickListener {
-                    val direction = EditAppealFragmentDirections
+                setSelectCategoryListener {
+                    val direction = AppealDetailsFragmentDirections
                         .actionDstEditAppealToDstFragmentSelectCategory(viewModel.id.value!!)
                     findNavController().navigate(direction)
                 }
@@ -55,8 +55,8 @@ class EditAppealFragment : MessagingFragment() {
         appealId?.let { viewModel.imageListViewModel.init(it, viewLifecycleOwner) }
 
         viewModel.goToAuthorization = {
-            val direction = EditAppealFragmentDirections
-                .actionDstEditAppealToDstFragmentAuthorization()
+            val direction =
+                AppealDetailsFragmentDirections.actionDstEditAppealToDstFragmentAuthorization()
             findNavController().navigate(direction)
         }
         viewModel.goBack = { findNavController().navigateUp() }
@@ -65,7 +65,7 @@ class EditAppealFragment : MessagingFragment() {
             attach(this)
             detailsEventChannel.observe(viewLifecycleOwner) { evt ->
                 evt.unused?.let { imageId ->
-                    val direction = EditAppealFragmentDirections
+                    val direction = AppealDetailsFragmentDirections
                         .actionDstEditAppealToViewAppealPhotoFragment(imageId)
                     findNavController().navigate(direction)
                 }

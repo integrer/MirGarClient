@@ -22,11 +22,13 @@ class UnitOfWork(context: Context) {
     /**
      * Reference to [CategoryRepository]
      */
-    val categoryRepository: CategoryRepository get() = CategoryRepository(database)
+    val categoryRepository: CategoryRepository get() = CategoryRepository(database, this)
 
     /**
      * Reference to [AppealPhotoRepository]
      */
     val appealPhotoRepository: AppealPhotoRepository get() =
         AppealPhotoRepository(database, appContext)
+
+    val sharedPreferencesService get() = SharedPreferencesService(appContext)
 }

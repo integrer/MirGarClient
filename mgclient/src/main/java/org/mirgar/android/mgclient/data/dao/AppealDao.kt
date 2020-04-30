@@ -3,20 +3,39 @@ package org.mirgar.android.mgclient.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import org.mirgar.android.mgclient.data.entity.Appeal
-import org.mirgar.android.mgclient.data.models.AppealWithCategory
-import org.mirgar.android.mgclient.data.models.AppealWithCategoryTitle
+import org.mirgar.android.mgclient.data.models.AppealPreview
 
 @Dao
 internal interface AppealDao {
     @Transaction
-    @Query("SELECT appeals.*, category_title FROM appeals LEFT JOIN categories ON category_id = appeal_category_id WHERE is_own")
-    fun getOwnWithCategoryTitle(): LiveData<List<AppealWithCategoryTitle>>
+    @Query("""SELECT appeals.*, category_title
+        FROM appeals LEFT JOIN categories ON category_id = appeal_category_id
+        WHERE appeal_remote_id IS NULL""")
+    fun getOwnWithCategoryTitle(): LiveData<List<AppealPreview>>
+
+    @Transaction
+    @Query("""SELECT appeals.*, category_title
+        FROM appeals LEFT JOIN categories ON category_id = appeal_category_id
+        WHERE appeal_remote_id IS NULL OR appeal_user_id = :userId""")
+    fun getOwnWithCategoryTitle(userId: Long): LiveData<List<AppealPreview>>
+
+    @Transaction
+    @Query("""SELECT appeals.*, category_title
+        FROM appeals LEFT JOIN categories ON category_id = appeal_category_id
+        WHERE appeal_remote_id IS NOT NULL""")
+    fun getAllWithCategoryTitle(): LiveData<List<AppealPreview>>
 
     @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
-    fun getById(id: Long): LiveData<Appeal>
+    suspend fun getById(id: Long): Appeal?
 
     @Query("SELECT * FROM appeals WHERE appeal_id = :id LIMIT 1")
-    suspend fun getByIdAsPlain(id: Long): Appeal?
+    fun getLiveById(id: Long): LiveData<Appeal>
+
+    @Transaction
+    @Query("""SELECT appeals.*, category_title
+        FROM appeals LEFT JOIN categories ON category_id = appeal_category_id
+        WHERE appeal_id = :id LIMIT 1""")
+    fun getPreviewLiveById(id: Long): LiveData<AppealPreview>
 
     @Query("SELECT EXISTS(SELECT 1 FROM appeals WHERE appeal_id = :id LIMIT 1)")
     suspend fun has(id: Long): Boolean
@@ -35,4 +54,7 @@ internal interface AppealDao {
 
     @Query("DELETE FROM appeals WHERE appeal_id = :id")
     suspend fun delete(id: Long)
+
+    @Query("SELECT * FROM appeals WHERE appeal_remote_id = :id")
+    suspend fun findByServerId(id: Long): Appeal?
 }

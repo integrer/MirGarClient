@@ -7,7 +7,7 @@
         android:title="@string/title_my_appeals" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/dst_all_appeals"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_dashboard" />
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="org.mirgar.android.mgclient.ui.viewmodels.AppealDetailsViewModel" />
+
+        <variable
+            name="imageListViewModel"
+            type="org.mirgar.android.mgclient.ui.viewmodels.ImageList" />
+
+        <variable
+            name="selectCategoryListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/fragment_edit_appeal"
+            app:selectCategoryListener="@{selectCategoryListener}"
+            app:viewmodel="@{viewmodel}"
+            app:imageListViewModel="@{imageListViewModel}"/>
+
+        <include
+            layout="@layout/fragment_view_appeal"
+            app:viewmodel="@{viewmodel}"
+            app:imageListViewModel="@{imageListViewModel}"/>
+    </LinearLayout>
+</layout>

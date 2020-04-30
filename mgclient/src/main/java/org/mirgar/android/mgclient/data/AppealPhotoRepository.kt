@@ -12,24 +12,28 @@ import kotlinx.coroutines.withContext
 import org.mirgar.android.common.exception.ExceptionWithResources
 import org.mirgar.android.common.ui.ActivityResult
 import org.mirgar.android.mgclient.R
+import org.mirgar.android.mgclient.data.entity.Appeal
 import org.mirgar.android.mgclient.data.entity.AppealPhoto
+import org.mirgar.android.mgclient.data.entity.RemoteAppealPhoto
 import org.mirgar.android.mgclient.data.models.AppealPhotoWithFile
+import org.mirgar.android.mgclient.data.net.models.AppealPhotoIn
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AppealPhotoRepository internal constructor(db: AppDatabase, private val context: Context) {
-    private val dao = db.getAppealPhotoDao()
+    private val daoRemotes = db.getRemoteAppealPhotoDao()
+    private val daoLocals = db.getAppealPhotoDao()
 
     private val photosHome = ContextWrapper(context).filesDir.path + "/photos"
 
     suspend fun getPhotosOfAppeal(id: Long) =
-        dao.ofAppeal(id).map { appealPhoto ->
+        daoLocals.ofAppeal(id).map { appealPhoto ->
             AppealPhotoWithFile(appealPhoto, File(appealPhoto.fileName))
         }
 
-    fun getPhotosOfAppealAsLive(id: Long) = dao.ofAppealAsLive(id)
+    fun getPhotosOfAppealAsLive(id: Long) = daoLocals.ofAppealAsLive(id)
 
     @Throws(IOException::class)
     suspend fun createFile(): File {
@@ -66,19 +70,31 @@ class AppealPhotoRepository internal constructor(db: AppDatabase, private val co
     }
 
     private suspend fun savePhoto(appealId: Long, absolutePath: String, extension: String) {
-        dao.insert(AppealPhoto(appealId = appealId, fileName = absolutePath, ext = extension))
+        daoLocals.insert(AppealPhoto(appealId = appealId, fileName = absolutePath, ext = extension))
     }
 
-    fun getLivePhoto(id: Long) = dao.getOneAsLive(id).map { appealPhoto ->
+    fun getLivePhoto(id: Long) = daoLocals.getOneAsLive(id).map { appealPhoto ->
         appealPhoto?.let { AppealPhotoWithFile(it, File(it.fileName)) }
     }
 
     suspend fun delete(id: Long) {
-        val photo = dao.getOne(id) ?: return
+        delete_impl(daoLocals.getOne(id) ?: return)
+    }
+
+    private suspend fun delete_impl(photo: AppealPhoto) {
         if (photo.fileName.startsWith(photosHome)) {
             val file = File(photo.fileName)
             if (file.exists()) file.delete()
         }
-        dao.delete(photo)
+        daoLocals.delete(photo)
+    }
+
+    suspend fun deleteAllBoundTo(appeal: Appeal) {
+        daoLocals.ofAppeal(appeal.id).forEach { delete_impl(it) }
+    }
+
+    suspend fun update(photos: List<AppealPhotoIn>, owner: Appeal) {
+        photos.asSequence().map { RemoteAppealPhoto(it.id.toLong(), owner.id, it.related_path) }
+            .forEach { daoRemotes.updateOrInsert(it) }
     }
 }

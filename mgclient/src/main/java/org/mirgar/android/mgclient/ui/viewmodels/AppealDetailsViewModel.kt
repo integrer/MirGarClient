@@ -14,12 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mirgar.android.common.exception.ExceptionWithResources
 import org.mirgar.android.mgclient.R
+import org.mirgar.android.mgclient.data.AppealStatus
 import org.mirgar.android.mgclient.data.UnitOfWork
 import org.mirgar.android.mgclient.data.entity.Appeal
 import java.util.*
 
 // ToDo: remove all works with [Context]
-class EditAppeal internal constructor(
+class AppealDetailsViewModel internal constructor(
     private val unitOfWork: UnitOfWork,
     private val context: Context
 ) : MutableViewModel<Long>() {
@@ -41,6 +42,20 @@ class EditAppeal internal constructor(
     private var appealOriginal = Appeal()
     private lateinit var locationManager: LocationManager
 
+    private val _categoryName = MediatorLiveData<String?>().apply { value = null }
+    val categoryName = _categoryName.map {
+        if (categoryNameModifier != null) categoryNameModifier?.let { fn -> fn(it) }
+        else it
+    }
+
+    val _canBeEdited = MediatorLiveData<Boolean>().apply {
+        value = true
+    }
+
+    val canBeEdited: LiveData<Boolean> = _canBeEdited
+
+    var categoryNameModifier: ((CharSequence?) -> CharSequence?)? = null
+
     private var locationListener: LocationListener? = null
 
     private val _isLocationFetching = MutableLiveData(false)
@@ -48,6 +63,7 @@ class EditAppeal internal constructor(
 
     lateinit var goToAuthorization: () -> Unit
     lateinit var goBack: () -> Unit
+
 
     private val appealMerger: MediatorLiveData<Appeal> = MediatorLiveData<Appeal>().apply {
         value = Appeal()
@@ -157,9 +173,24 @@ class EditAppeal internal constructor(
                 _error.show(R.string.appeal_not_found)
                 return@let
             }
-            repo.getOne(id).observe(lifecycleOwner) {
-                appealOriginal = it
+            val liveData = repo.getPreviewLiveById(id)
+            liveData.observe(lifecycleOwner) {
+                appealOriginal = it.appeal
             }
+            _canBeEdited.addSource(liveData) {
+                _canBeEdited.value = with(it.appeal) {
+                    remoteId == null
+                            || (userId == repo.userId
+                            && when (status) {
+                        AppealStatus.ACCEPTED, AppealStatus.PROCESSING, AppealStatus.DENIED -> false // TODO: Implement deleting appeal from server
+                        else -> false
+                    })
+                }
+            }
+            _categoryName.addSource(liveData) { preview ->
+                _categoryName.value = preview.categoryTitle
+            }
+
             appealOriginal = repo.getOneAsPlain(id)!!
             initBindings(appealOriginal)
 

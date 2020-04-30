@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import org.mirgar.android.common.ui.MessagingFragment
 import org.mirgar.android.mgclient.ui.viewmodels.ViewAppealPhoto
-import org.mirgar.android.mgclient.ui.viewmodels.viewModelFactory
 import org.mirgar.android.mgclient.databinding.FragmentViewAppealPhotoBinding as Binding
 
-class ViewAppealPhotoFragment : MessagingFragment() {
+class ViewAppealPhotoFragment : UnitOfWorkHolderFragment() {
     override val viewModel: ViewAppealPhoto by viewModels { viewModelFactory }
 
     private val args: ViewAppealPhotoFragmentArgs by navArgs()

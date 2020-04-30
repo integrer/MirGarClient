@@ -25,7 +25,7 @@ class MainActivity : AsyncActivity() {
         appBarConfiguration = AppBarConfiguration
             .Builder(
                 R.id.dst_my_appeals,
-                R.id.navigation_dashboard,
+                R.id.dst_all_appeals,
                 R.id.navigation_notifications
             )
             .build()

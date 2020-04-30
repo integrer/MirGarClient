@@ -3,22 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/dst_my_appeals">
+    app:startDestination="@id/dst_my_appeals">
 
     <fragment
         android:id="@+id/dst_my_appeals"
         android:name="org.mirgar.android.mgclient.ui.MyAppealsFragment"
         android:label="@string/title_my_appeals"
         tools:layout="@layout/fragment_my_appeals" >
+
+        <argument
+            android:name="own_only"
+            app:argType="boolean"
+            android:defaultValue="true" />
+
         <action
             android:id="@+id/action_navigation_my_appeals_to_editAppealFragment"
             app:destination="@id/dst_edit_appeal" />
+
+        <action
+            android:id="@+id/action_dst_my_appeals_to_dst_fragment_authorization"
+            app:destination="@id/dst_fragment_authorization" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dst_all_appeals"
+        android:name="org.mirgar.android.mgclient.ui.MyAppealsFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_my_appeals" >
+        <argument
+            android:name="own_only"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+        <action
+            android:id="@+id/action_navigation_my_appeals_to_editAppealFragment"
+            app:destination="@id/dst_edit_appeal" />
+
     </fragment>
 
     <fragment
         android:id="@+id/dst_edit_appeal"
-        android:name="org.mirgar.android.mgclient.ui.EditAppealFragment"
-        android:label="@string/title_edit_appeal"
+        android:name="org.mirgar.android.mgclient.ui.AppealDetailsFragment"
+        android:label="@string/title_appeal_details"
         tools:layout="@layout/fragment_edit_appeal" >
 
         <argument
@@ -38,6 +65,7 @@
         <action
             android:id="@+id/action_dst_edit_appeal_to_dst_fragment_authorization"
             app:destination="@id/dst_fragment_authorization" />
+
         <action
             android:id="@+id/action_dst_edit_appeal_to_viewAppealPhotoFragment"
             app:destination="@id/viewAppealPhotoFragment" />
@@ -46,7 +74,7 @@
     <fragment
         android:id="@+id/dst_fragment_select_category"
         android:name="org.mirgar.android.mgclient.ui.SelectCategoryFragment"
-        android:label="fragment_select_category"
+        android:label="@string/category_selection"
         tools:layout="@layout/fragment_select_category" >
         <argument
             android:name="appealId"
@@ -56,8 +84,9 @@
     <fragment
         android:id="@+id/dst_fragment_authorization"
         android:name="org.mirgar.android.mgclient.ui.AuthorizationFragment"
-        android:label="fragment_authorization"
+        android:label="@string/authorization"
         tools:layout="@layout/fragment_authorization" />
+
     <fragment
         android:id="@+id/viewAppealPhotoFragment"
         android:name="org.mirgar.android.mgclient.ui.ViewAppealPhotoFragment"

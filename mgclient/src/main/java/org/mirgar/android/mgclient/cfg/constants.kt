@@ -17,3 +17,5 @@ object DB {
 }
 
 const val IMAGES_MAX = 5
+
+const val UPDATE_DELAY = 60L * 60L * 1000L // Hour
