@@ -34,6 +34,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginHorizontal="@dimen/margin_small"
                 android:inputType="textEmailAddress"
                 android:hint="@string/username"
                 android:required="true"
@@ -44,6 +47,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
                 android:inputType="textPassword"
                 android:hint="@string/password"
                 android:required="true"
@@ -54,6 +58,9 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginHorizontal="@dimen/margin_small"
                 android:text="@string/login"
                 android:onClick="@{() -> viewModel.login()}"/>
         </LinearLayout>

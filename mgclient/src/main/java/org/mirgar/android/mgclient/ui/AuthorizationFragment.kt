@@ -19,9 +19,7 @@ class AuthorizationFragment : UnitOfWorkHolderFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.onAfterLogin = Runnable {
-            findNavController().navigateUp()
-        }
+        viewModel.onAfterLogin = { findNavController().navigateUp() }
 
         val binding = Binding.inflate(inflater, container, false)
             .apply {
