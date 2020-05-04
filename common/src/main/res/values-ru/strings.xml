@@ -5,4 +5,5 @@
     <string name="continue_question">Продолжить?</string>
     <string name="file_not_found">Файл %1$s не найден!</string>
     <string name="error">Ошибка</string>
+    <string name="canceled">Операция отменена</string>
 </resources>

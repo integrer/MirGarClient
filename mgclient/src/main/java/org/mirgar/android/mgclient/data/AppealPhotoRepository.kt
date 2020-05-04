@@ -9,6 +9,7 @@ import androidx.lifecycle.map
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.mirgar.android.common.R as CommonR
 import org.mirgar.android.common.exception.ExceptionWithResources
 import org.mirgar.android.common.ui.ActivityResult
 import org.mirgar.android.mgclient.R
@@ -58,8 +59,16 @@ class AppealPhotoRepository internal constructor(db: AppDatabase, private val co
             // TODO: use lifecycle observer instead
             val result = deferredActivityResultFactory(intent).await()
             result ?: throw ExceptionWithResources { getString(R.string.camera_app_not_found) }
-            if (file.length() == 0L) throw ExceptionWithResources { getString(R.string.unknown_error) }
-            savePhoto(appealId, file.absolutePath, "jpeg")
+            when (result.resultCode) {
+                android.app.Activity.RESULT_OK -> {
+                    if (file.length() == 0L)
+                        throw ExceptionWithResources { getString(R.string.unknown_error) }
+                    savePhoto(appealId, file.absolutePath, "jpeg")
+                }
+                android.app.Activity.RESULT_CANCELED ->
+                    throw ExceptionWithResources { getString(CommonR.string.canceled) }
+                else -> throw ExceptionWithResources { getString(R.string.unknown_error) }
+            }
         } catch (ex: ExceptionWithResources) {
             if (file.exists()) file.delete()
             throw ex

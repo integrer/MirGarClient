@@ -5,4 +5,5 @@
     <string name="continue_question">Continue?</string>
     <string name="file_not_found">File %1$s not found!</string>
     <string name="error">Error</string>
+    <string name="canceled">Operation canceled</string>
 </resources>
