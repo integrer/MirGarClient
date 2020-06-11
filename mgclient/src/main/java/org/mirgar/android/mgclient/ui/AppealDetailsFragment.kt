@@ -49,7 +49,7 @@ class AppealDetailsFragment : UnitOfWorkHolderFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val appealId = if (args.hasAppealId) args.appealId else null
+        val appealId = args.appealId.takeIf { args.hasAppealId }
 
         viewModel.setup(appealId, viewLifecycleOwner)
         appealId?.let { viewModel.imageListViewModel.init(it, viewLifecycleOwner) }
