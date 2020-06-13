@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/dst_elections_list">
+
+    <fragment
+        android:id="@+id/dst_elections_list"
+        android:name="org.mirgar.android.cryptoelection.ui.ElectionsListFragment"
+        android:label="@string/title_elections_list"
+        tools:layout="@layout/fragment_election_list" />
+
+    <fragment
+        android:id="@+id/dst_authorization"
+        android:name="org.mirgar.android.cryptoelection.ui.AuthorizationFragment"
+        android:label="@string/title_authorization"
+        tools:layout="@layout/fragment_authorization" >
+        <action
+            android:id="@+id/action_dst_authorization_to_dst_elections_list"
+            app:destination="@id/dst_elections_list" />
+    </fragment>
+</navigation>

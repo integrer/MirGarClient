@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package crypto_election.core;
+
+import "exonum/crypto/types.proto";
+
+
+option java_package = "org.mirgar.android.cryptoelection.messages";
+
+message OptionalHash {
+    exonum.crypto.Hash value = 1;
+}
+
+message VecI64Wrap {
+    repeated int64 _0 = 1;
+    uint64 history_len = 2;
+    exonum.crypto.Hash history_hash = 3;
+}

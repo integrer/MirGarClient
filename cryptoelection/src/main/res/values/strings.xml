@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Crypto Election</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="private_key">Private Key</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Telephone number</string>
+    <string name="field_required">Field is required</string>
+    <string name="invalid_email">Input correct email</string>
+    <string name="invalid_phone">Type valid phone number</string>
+    <string name="title_elections_list">Elections</string>
+    <string name="title_authorization">Authorization</string>
+    <string name="pass_code">Passport code</string>
+    <string name="successful_register">Save the secret key in a safe place. You will need it to log in to the demo next time.</string>
+    <string name="secret_key">Secret key:</string>
+</resources>

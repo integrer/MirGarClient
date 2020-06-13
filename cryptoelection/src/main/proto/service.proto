@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package crypto_election.core;
+
+import "google/protobuf/timestamp.proto";
+
+import "exonum/crypto/types.proto";
+
+option java_package = "org.mirgar.android.cryptoelection.messages";
+
+import "wrappers.proto";
+import "geo.proto";
+
+//region Database models
+message Participant {
+    exonum.crypto.Hash addr = 1;
+    string name = 2;
+    string email = 3;
+    string phone_number = 4;
+    string pass_code = 5;
+    OptionalHash residence = 6;
+    uint64 history_len = 7;
+    exonum.crypto.Hash history_hash = 8;
+}
+
+message Administration {
+    exonum.crypto.Hash addr = 1;
+    string name = 2;
+    OptionalHash principal_key = 3;
+    Polygon area = 4;
+    uint32 administration_level = 5;
+    uint64 history_len = 6;
+    exonum.crypto.Hash history_hash = 7;
+}
+
+message Election {
+    int64 addr = 1;
+    exonum.crypto.Hash issuer = 2;
+    string name = 3;
+    bool is_cancelled = 4;
+    google.protobuf.Timestamp start_date = 5;
+    google.protobuf.Timestamp finish_date = 6;
+    repeated ElectionOption options = 7;
+    uint64 history_len = 8;
+    exonum.crypto.Hash history_hash = 9;
+}
+
+message ElectionOption {
+    int32 id = 1;
+    string title = 2;
+}
+//endregion
+
+//region Transaction models
+/// Timestamping configuration.
+message Config {
+    // Time oracle service name.
+    string time_service_name = 1;
+}
+
+message CreateParticipant {
+    string name = 1;
+    string email = 2;
+    string phone_number = 3;
+    OptionalHash residence = 4;
+    string pass_code = 5;
+}
+
+message CreateAdministration {
+    string name = 1;
+    OptionalHash principal_key = 2;
+    Polygon area = 3;
+}
+
+message IssueElection {
+    string name = 1;
+    google.protobuf.Timestamp start_date = 2;
+    google.protobuf.Timestamp finish_date = 3;
+    repeated string options = 4;
+}
+
+message Vote {
+    int64 election_id = 1;
+    int32 option_id = 2;
+    int64 seed = 3;
+}
+
+message SubmitLocation {
+    Coordinate position = 1;
+    google.protobuf.Timestamp date = 2;
+}
+//endregion
