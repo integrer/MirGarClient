@@ -3,6 +3,7 @@ package org.mirgar.android.common.viewmodel
 abstract class PollModel<out ID> {
     abstract val name: CharSequence
     abstract val showResults: Boolean
+    abstract val canVote: Boolean
     abstract val options: Collection<PollOption<ID>>
 
     fun asNormalized() = this as? NormalizedPollModel ?: NormalizedPollModel.from(this)
@@ -11,6 +12,7 @@ abstract class PollModel<out ID> {
 class NormalizedPollModel<out ID> internal constructor(
     override val name: CharSequence,
     override val showResults: Boolean,
+    override val canVote: Boolean,
     options: Collection<PollOption<ID>>
 ) : PollModel<ID>() {
     override val options: Collection<NormalizedPollOption<ID>>
@@ -34,7 +36,7 @@ class NormalizedPollModel<out ID> internal constructor(
 
     companion object {
         fun <ID> from(other: PollModel<ID>) =
-            NormalizedPollModel(other.name, other.showResults, other.options)
+            NormalizedPollModel(other.name, other.showResults, other.canVote, other.options)
     }
 }
 
