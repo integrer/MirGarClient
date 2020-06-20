@@ -18,7 +18,14 @@ class NormalizedPollModel<out ID, out OptID> internal constructor(
     override val showResults get() = other.showResults
     override val canVote get() = other.canVote
 
-    override val options: Collection<NormalizedPollOption<OptID>>
+    override val options: Collection<NormalizedPollOption<OptID>> by lazy {
+        val optsSeq = other.options.asSequence()
+        val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
+
+        val normalizedSeq = optsSeq.map { it.normalizeBy(totalVotes) }
+
+        ArrayList<NormalizedPollOption<OptID>>(other.options.size).apply { addAll(normalizedSeq) }
+    }
 
     class NormalizedPollOption<out ID> internal constructor(
         override val id: ID, override val name: CharSequence, override val votes: Double
@@ -26,16 +33,6 @@ class NormalizedPollModel<out ID, out OptID> internal constructor(
 
     private fun PollOption<OptID>.normalizeBy(total: Double) =
         NormalizedPollOption(id, name, votes.toDouble() / total)
-
-    init {
-        val optsSeq = other.options.asSequence()
-        val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
-
-        val normalizedSeq = optsSeq.map { it.normalizeBy(totalVotes) }
-
-        this.options =
-            ArrayList<NormalizedPollOption<OptID>>(other.options.size).apply { addAll(normalizedSeq) }
-    }
 }
 
 abstract class PollOption<out ID> {
