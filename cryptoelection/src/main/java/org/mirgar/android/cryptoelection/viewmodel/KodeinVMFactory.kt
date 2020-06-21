@@ -11,20 +11,19 @@ import org.kodein.di.*
  * View model factory for easy injecting view models with their dependencies using Kodein library
  */
 class KodeinVMFactory(private val injector: DKodein) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
         injector.InstanceOrNull(TT(modelClass)) ?: modelClass.newInstance()
 }
 
 class KodeinVMFactoryWithArgs<A>(
     private val injector: DKodein, private val args: A, private val argType: TypeToken<in A>
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
         injector.InstanceOrNull(argType, TT(modelClass), arg = args) ?: modelClass.newInstance()
 
     companion object {
-        inline fun <reified A> new(injector: DKodein, args: A): KodeinVMFactoryWithArgs<A> {
-            return KodeinVMFactoryWithArgs(injector, args, generic())
-        }
+        inline fun <reified A> new(injector: DKodein, args: A) =
+            KodeinVMFactoryWithArgs(injector, args, generic())
     }
 }
 
