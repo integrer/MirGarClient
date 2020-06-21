@@ -1,40 +1,36 @@
 package org.mirgar.android.common.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 
-abstract class PollViewModel<out ID, out OptID> : ViewModel() {
+abstract class PollViewModel<out ID, OptID> : ViewModel() {
     abstract val id: ID
     abstract val name: CharSequence
-    abstract val showResults: Boolean
-    abstract val canVote: Boolean
-    abstract val options: Collection<PollOption<OptID>>
+    abstract val showResults: LiveData<Boolean>
+    abstract val canVote: LiveData<Boolean>
 
-    fun asNormalized() = this as? NormalizedPollViewModel ?: NormalizedPollViewModel(this)
-}
+    val options by lazy { rawOptions.map { if (showResults.value == true) normalize(it) else it} }
 
-class NormalizedPollViewModel<out ID, out OptID> internal constructor(
-    private val other: PollViewModel<ID, OptID>
-) : PollViewModel<ID, OptID>() {
-    override val id get() = other.id
-    override val name get() = other.name
-    override val showResults get() = other.showResults
-    override val canVote get() = other.canVote
+    protected abstract val rawOptions: LiveData<Collection<PollOption<OptID>>>
 
-    override val options: Collection<NormalizedPollOption<OptID>> by lazy {
-        val optsSeq = other.options.asSequence()
-        val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
+    companion object {
+        protected fun <OptID> normalize(options: Collection<PollOption<OptID>>): Collection<PollOption<OptID>> {
+            val optsSeq = options.asSequence()
+            val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
 
-        val normalizedSeq = optsSeq.map { it.normalizeBy(totalVotes) }
+            val normalizedSeq = optsSeq.map { it.normalizeBy(totalVotes) }
 
-        ArrayList<NormalizedPollOption<OptID>>(other.options.size).apply { addAll(normalizedSeq) }
+            return ArrayList<PollOption<OptID>>(options.size).apply { addAll(normalizedSeq) }
+        }
+
+        private class NormalizedPollOption<out ID>(
+            override val id: ID, override val name: CharSequence, override val votes: Double
+        ) : PollOption<ID>()
+
+        private fun <OptID> PollOption<OptID>.normalizeBy(total: Double) =
+            NormalizedPollOption(id, name, votes.toDouble() / total)
     }
-
-    class NormalizedPollOption<out ID> internal constructor(
-        override val id: ID, override val name: CharSequence, override val votes: Double
-    ) : PollOption<ID>()
-
-    private fun PollOption<OptID>.normalizeBy(total: Double) =
-        NormalizedPollOption(id, name, votes.toDouble() / total)
 }
 
 abstract class PollOption<out ID> {
