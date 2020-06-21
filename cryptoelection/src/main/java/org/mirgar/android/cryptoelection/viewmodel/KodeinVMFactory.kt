@@ -15,14 +15,14 @@ class KodeinVMFactory(private val injector: DKodein) : ViewModelProvider.Factory
         injector.InstanceOrNull(TT(modelClass)) ?: modelClass.newInstance()
 }
 
-class KodeinVMFactoryWithArgs<A : Any>(
+class KodeinVMFactoryWithArgs<A>(
     private val injector: DKodein, private val args: A, private val argType: TypeToken<in A>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         injector.InstanceOrNull(argType, TT(modelClass), arg = args) ?: modelClass.newInstance()
 
     companion object {
-        inline fun <reified A : Any> new(injector: DKodein, args: A): KodeinVMFactoryWithArgs<A> {
+        inline fun <reified A> new(injector: DKodein, args: A): KodeinVMFactoryWithArgs<A> {
             return KodeinVMFactoryWithArgs(injector, args, generic())
         }
     }
@@ -33,5 +33,5 @@ inline fun <reified VM : ViewModel, T> T.viewModels(): Lazy<VM> where T : Fragme
     viewModels(factoryProducer = ::kodeinVMFactory)
 
 fun <T : KodeinAware> T.kodeinVMFactory() = KodeinVMFactory(direct)
-inline fun <T : KodeinAware, reified A : Any> T.kodeinVMFactory(args: A) =
+inline fun <T : KodeinAware, reified A> T.kodeinVMFactory(args: A) =
     KodeinVMFactoryWithArgs.new(direct, args)
