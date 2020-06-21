@@ -43,11 +43,11 @@ dependencies {
 
     //region android
     implementation "androidx.appcompat:appcompat:$rootProject.androidx_ver.appcompat"
-    implementation "androidx.fragment:fragment-ktx:$rootProject.androidx_ver.fragment"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.androidx_ver.lifecycle"
-    implementation "androidx.legacy:legacy-support-v4:$rootProject.androidx_ver.legacy"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.androidx_ver.recycler_view"
     implementation "androidx.core:core-ktx:$rootProject.androidx_ver.core"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.androidx_ver.fragment"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.androidx_ver.legacy"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.androidx_ver.lifecycle"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.androidx_ver.recycler_view"
     implementation "com.google.android.material:material:$rootProject.android_ver.material"
 
     implementation "com.squareup.retrofit2:converter-jackson:$rootProject.retrofit_ver"
