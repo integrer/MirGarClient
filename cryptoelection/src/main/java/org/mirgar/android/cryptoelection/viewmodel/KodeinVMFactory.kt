@@ -15,7 +15,8 @@ import org.kodein.di.generic.instanceOrNull
 class KodeinVMFactory(private val injector: DKodein) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        injector.instanceOrNull<ViewModel>(tag = modelClass.ident()) as T? ?: modelClass.newInstance()
+        injector.instanceOrNull<ViewModel>(tag = modelClass.ident()) as T?
+            ?: modelClass.newInstance()
 }
 
 class KodeinVMFactoryWithArgs<A : Any>(
@@ -37,8 +38,9 @@ class KodeinVMFactoryWithArgs<A : Any>(
 inline fun <reified VM : ViewModel, T> T.viewModels(): Lazy<VM> where T : Fragment, T : KodeinAware =
     viewModels(factoryProducer = ::kodeinVMFactory)
 
-fun <T: KodeinAware> T.kodeinVMFactory() = KodeinVMFactory(direct)
-inline fun <T : KodeinAware, reified A : Any> T.kodeinVMFactory(args: A) = KodeinVMFactoryWithArgs.new(direct, args)
+fun <T : KodeinAware> T.kodeinVMFactory() = KodeinVMFactory(direct)
+inline fun <T : KodeinAware, reified A : Any> T.kodeinVMFactory(args: A) =
+    KodeinVMFactoryWithArgs.new(direct, args)
 
 fun <T> Class<T>.ident() = name
 
