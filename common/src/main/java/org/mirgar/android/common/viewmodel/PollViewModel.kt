@@ -10,7 +10,14 @@ abstract class PollViewModel<out ID, OptID> : ViewModel() {
     abstract val showResults: LiveData<Boolean>
     abstract val canVote: LiveData<Boolean>
 
-    val options by lazy { rawOptions.map { if (showResults.value == true) normalize(it) else it} }
+    var normalize = true
+    var lazyNormalize = true
+
+    val options by lazy {
+        rawOptions.map {
+            if (normalize && (!lazyNormalize || showResults.value == true)) normalize(it) else it
+        }
+    }
 
     protected abstract val rawOptions: LiveData<Collection<PollOption<OptID>>>
 
