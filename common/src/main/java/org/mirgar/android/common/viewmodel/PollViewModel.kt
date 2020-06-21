@@ -21,6 +21,9 @@ abstract class PollViewModel<out ID, OptID> : ViewModel() {
 
     protected abstract val rawOptions: LiveData<Collection<PollOption<OptID>>>
 
+    abstract fun update()
+    abstract fun vote(optionId: OptID)
+
     companion object {
         protected fun <OptID> normalize(options: Collection<PollOption<OptID>>): Collection<PollOption<OptID>> {
             val optsSeq = options.asSequence()
