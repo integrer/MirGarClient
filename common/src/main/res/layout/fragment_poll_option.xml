@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable name="parentVM" type="org.mirgar.android.common.viewmodel.PollViewModel" />
+        <variable name="thisOption" type="org.mirgar.android.common.viewmodel.PollOption" />
+    </data>
+
+    <org.mirgar.android.common.view.MaskedCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardPreventCornerOverlap="false"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.Card"
+        android:onClick="@{() -> parentVM.vote(thisOption.id)}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:id="@+id/partView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isGone="@{parentVM.showResults}"
+                android:weightSum="1.0">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_weight="@{thisOption.votes}"
+                    android:src="@drawable/rectangle_rounded_all"
+                    android:contentDescription="@string/part_of_votes" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/text_margin"
+                android:text="@{thisOption.name}"
+                android:theme="@style/AppTheme"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </org.mirgar.android.common.view.MaskedCardView>
+</layout>

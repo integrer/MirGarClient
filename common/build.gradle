@@ -43,6 +43,7 @@ dependencies {
 
     //region android
     implementation "androidx.appcompat:appcompat:$rootProject.androidx_ver.appcompat"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.androidx_ver.constraint_layout"
     implementation "androidx.core:core-ktx:$rootProject.androidx_ver.core"
     implementation "androidx.fragment:fragment-ktx:$rootProject.androidx_ver.fragment"
     implementation "androidx.legacy:legacy-support-v4:$rootProject.androidx_ver.legacy"
