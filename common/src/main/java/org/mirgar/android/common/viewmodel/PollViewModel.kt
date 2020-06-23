@@ -15,7 +15,8 @@ abstract class PollViewModel<out ID, OptID> : ViewModel() {
 
     val options by lazy {
         rawOptions.map {
-            if (normalize && (!lazyNormalize || showResults.value == true)) normalize(it) else it
+            if (normalize && (!lazyNormalize || showResults.value == true)) normalize(it)
+            else it as? List<PollOption<OptID>> ?: it.toList()
         }
     }
 
@@ -25,7 +26,7 @@ abstract class PollViewModel<out ID, OptID> : ViewModel() {
     abstract fun vote(optionId: OptID)
 
     companion object {
-        protected fun <OptID> normalize(options: Collection<PollOption<OptID>>): Collection<PollOption<OptID>> {
+        protected fun <OptID> normalize(options: Collection<PollOption<OptID>>): List<PollOption<OptID>> {
             val optsSeq = options.asSequence()
             val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
 
