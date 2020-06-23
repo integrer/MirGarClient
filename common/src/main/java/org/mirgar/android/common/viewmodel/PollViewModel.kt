@@ -47,4 +47,14 @@ abstract class PollOption<out ID> {
     abstract val id: ID
     abstract val name: CharSequence
     abstract val votes: Number
+
+    override fun equals(other: Any?) = other is PollOption<*>
+            && id == other.id && name == other.name && votes == other.votes
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + name.hashCode()
+        result = 31 * result + votes.hashCode()
+        return result
+    }
 }
