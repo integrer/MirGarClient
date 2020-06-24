@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -55,4 +56,15 @@ fun doIfConfirm(context: Context, consequence: CharSequence, action: () -> Unit)
 @BindingAdapter("adapter")
 fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     view.adapter = adapter
+}
+
+@BindingAdapter("scale", "scaleMax")
+fun setScale(view: View, scale: Number, scaleMax: Number) {
+    val _scale = scale.toFloat()
+    val _scaleMax = scaleMax.toFloat()
+    if (_scale in 0f.._scaleMax) {
+        val width = view.layoutParams.width
+        val height = view.layoutParams.height
+        view.layoutParams = LinearLayout.LayoutParams(width, height, _scale)
+    }
 }

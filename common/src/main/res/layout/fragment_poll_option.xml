@@ -20,17 +20,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
+
             <LinearLayout
                 android:id="@+id/partView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:isGone="@{parentVM.showResults}"
                 android:weightSum="1.0">
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:layout_weight="@{thisOption.votes}"
+                    android:layout_weight="1."
+                    app:scale="@{thisOption.votes}"
+                    app:scaleMax="@{1f}"
                     android:src="@drawable/rectangle_rounded_all"
                     android:contentDescription="@string/part_of_votes" />
 
