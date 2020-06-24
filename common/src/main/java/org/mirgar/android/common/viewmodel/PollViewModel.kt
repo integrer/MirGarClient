@@ -1,10 +1,16 @@
 package org.mirgar.android.common.viewmodel
 
+import android.util.SparseArray
+import androidx.core.util.getOrElse
+import androidx.core.util.set
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import org.mirgar.android.common.data.tryMatchAsListOrConvert
+import org.mirgar.android.common.model.PollModel
+import org.mirgar.android.common.model.PollOptionModel
 
-abstract class PollViewModel<out ID, OptID> : ViewModel() {
+abstract class PollViewModel<ID, OptID> : ViewModel() {
     abstract val id: ID
     abstract val name: CharSequence
     abstract val showResults: LiveData<Boolean>
@@ -13,49 +19,50 @@ abstract class PollViewModel<out ID, OptID> : ViewModel() {
     var normalize = true
     var lazyNormalize = true
 
-    val options by lazy {
-        rawOptions.map {
-            if (normalize && (!lazyNormalize || showResults.value == true)) normalize(it)
-            else it as? List<PollOption<OptID>> ?: it.toList()
+    val options by lazy<LiveData<List<PollOptionViewModel<OptID>>>> {
+        model.map {
+            ChildList(
+                it.optionModels, ::childViewModelFactory,
+                normalize && (!lazyNormalize || showResults.value == true)
+            )
         }
     }
 
-    protected abstract val rawOptions: LiveData<Collection<PollOption<OptID>>>
+    protected abstract val model: LiveData<PollModel<OptID>>
 
     abstract fun update()
     abstract fun vote(optionId: OptID)
+    protected abstract fun childViewModelFactory(model: PollOptionModel<OptID>): PollOptionViewModel<OptID>
 
-    companion object {
-        protected fun <OptID> normalize(options: Collection<PollOption<OptID>>): List<PollOption<OptID>> {
-            val optsSeq = options.asSequence()
-            val totalVotes by lazy { optsSeq.map { it.votes.toDouble() }.sum() }
+    protected class ChildList<TId>(
+        input: Collection<PollOptionModel<TId>>,
+        viewModelFactory: (PollOptionModel<TId>) -> PollOptionViewModel<TId>,
+        shouldNormalize: Boolean
+    ) : AbstractList<PollOptionViewModel<TId>>() {
+        private val _input by lazy { input.tryMatchAsListOrConvert() }
+        private val _results by lazy { SparseArray<PollOptionViewModel<TId>>(input.size) }
+        private val _sum by lazy { input.map { it.votes.toDouble() }.sum() }
 
-            val normalizedSeq = optsSeq.map { it.normalizeBy(totalVotes) }
+        private val _viewModelFactory = if (shouldNormalize) {
+            { viewModelFactory(it.normalizeBy(_sum)) }
+        } else viewModelFactory
 
-            return ArrayList<PollOption<OptID>>(options.size).apply { addAll(normalizedSeq) }
+        override val size = input.size
+
+        override fun get(index: Int) = _results.getOrElse(index) {
+            _input[index].let(_viewModelFactory).also { _results[index] = it }
         }
-
-        private class NormalizedPollOption<out ID>(
-            override val id: ID, override val name: CharSequence, override val votes: Double
-        ) : PollOption<ID>()
-
-        private fun <OptID> PollOption<OptID>.normalizeBy(total: Double) =
-            NormalizedPollOption(id, name, votes.toDouble() / total)
     }
 }
 
-abstract class PollOption<out ID> {
-    abstract val id: ID
-    abstract val name: CharSequence
-    abstract val votes: Number
+abstract class PollOptionViewModel<ID>(private val _model: PollOptionModel<ID>) {
+    val id = _model.id
+    val name = _model.name
+    val votes = _model.votes
 
-    override fun equals(other: Any?) = other is PollOption<*>
-            && id == other.id && name == other.name && votes == other.votes
+    abstract fun vote()
 
-    override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + name.hashCode()
-        result = 31 * result + votes.hashCode()
-        return result
-    }
+    fun isSame(other: PollOptionViewModel<ID>) = id == other.id
+    override fun equals(other: Any?) = _model == other
+    override fun hashCode() = _model.hashCode()
 }

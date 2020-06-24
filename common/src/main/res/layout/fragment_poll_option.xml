@@ -5,7 +5,9 @@
     <data>
 
         <variable name="parentVM" type="org.mirgar.android.common.viewmodel.PollViewModel" />
-        <variable name="thisOption" type="org.mirgar.android.common.viewmodel.PollOption" />
+        <variable
+            name="thisOption"
+            type="org.mirgar.android.common.viewmodel.PollOptionViewModel" />
     </data>
 
     <org.mirgar.android.common.view.MaskedCardView
@@ -13,7 +15,7 @@
         android:layout_height="wrap_content"
         app:cardPreventCornerOverlap="false"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.Card"
-        android:onClick="@{() -> parentVM.vote(thisOption.id)}">
+        android:onClick="@{() -> thisOption.vote()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
