@@ -64,7 +64,7 @@ abstract class PollOptionViewModel<ID>(private val _model: PollOptionModel<ID>) 
 
     abstract fun vote()
 
-    fun isSame(other: PollOptionViewModel<ID>) = id == other.id
+    open fun isSame(other: PollOptionViewModel<ID>) = id == other.id
     override fun equals(other: Any?) = _model == other
     override fun hashCode() = _model.hashCode()
 }
