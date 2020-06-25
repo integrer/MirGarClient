@@ -17,7 +17,7 @@ class PollAdapter<out ID, OptID>(private val parentVM: PollViewModel<ID, OptID>)
         override fun areItemsTheSame(
             oldItem: PollOptionViewModel<OptID>,
             newItem: PollOptionViewModel<OptID>
-        ): Boolean = oldItem.id == newItem.id
+        ): Boolean = oldItem.isSame(newItem)
 
         override fun areContentsTheSame(
             oldItem: PollOptionViewModel<OptID>,
