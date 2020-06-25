@@ -19,13 +19,12 @@ abstract class PollViewModel<ID, OptID> : ViewModel() {
     var normalize = true
     var lazyNormalize = true
 
+    protected open val shouldNormalize
+        get() =
+            normalize && (!lazyNormalize || showResults.value == true)
+
     val options by lazy<LiveData<List<PollOptionViewModel<OptID>>>> {
-        model.map {
-            ChildList(
-                it.optionModels, ::childViewModelFactory,
-                normalize && (!lazyNormalize || showResults.value == true)
-            )
-        }
+        model.map { ChildList(it.optionModels, ::childViewModelFactory, shouldNormalize) }
     }
 
     protected abstract val model: LiveData<PollModel<OptID>>
