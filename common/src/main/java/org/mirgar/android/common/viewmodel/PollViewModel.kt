@@ -12,9 +12,9 @@ import org.mirgar.android.common.model.PollOptionModel
 
 abstract class PollViewModel<ID, OptID> : ViewModel() {
     abstract val id: ID
-    abstract val name: CharSequence
-    abstract val showResults: LiveData<Boolean>
-    abstract val canVote: LiveData<Boolean>
+    val name by lazy { model.map { it.name } }
+    val showResults by lazy { model.map { it.showResults } }
+    val canVote by lazy { model.map { it.canVote } }
 
     var normalize = true
     var lazyNormalize = true
