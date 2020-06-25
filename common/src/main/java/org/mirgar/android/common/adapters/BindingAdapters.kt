@@ -58,13 +58,11 @@ fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     view.adapter = adapter
 }
 
-@BindingAdapter("scale", "scaleMax")
-fun setScale(view: View, scale: Number, scaleMax: Number) {
-    val _scale = scale.toFloat()
-    val _scaleMax = scaleMax.toFloat()
-    if (_scale in 0f.._scaleMax) {
+@BindingAdapter("scale", "scaleIf")
+fun setScale(view: View, scale: Number, predicate: Boolean) {
+    if (predicate) {
         val width = view.layoutParams.width
         val height = view.layoutParams.height
-        view.layoutParams = LinearLayout.LayoutParams(width, height, _scale)
+        view.layoutParams = LinearLayout.LayoutParams(width, height, scale.toFloat())
     }
 }

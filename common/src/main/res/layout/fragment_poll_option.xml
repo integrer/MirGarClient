@@ -25,16 +25,16 @@
                 android:id="@+id/partView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:isGone="@{parentVM.showResults}"
+                app:isGone="@{!parentVM.showResults}"
                 android:weightSum="1.0">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:layout_weight="1."
+                    android:layout_weight="0."
                     app:scale="@{thisOption.votes}"
-                    app:scaleMax="@{1f}"
+                    app:scaleIf="@{parentVM.showResults}"
                     android:src="@drawable/rectangle_rounded_all"
                     android:contentDescription="@string/part_of_votes" />
 
