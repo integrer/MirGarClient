@@ -31,7 +31,10 @@ abstract class PollViewModel<ID, OptID> : ViewModel() {
 
     abstract fun update()
     abstract fun vote(optionId: OptID)
-    protected abstract fun childViewModelFactory(model: PollOptionModel<OptID>): PollOptionViewModel<OptID>
+    protected open fun childViewModelFactory(model: PollOptionModel<OptID>) =
+        object : PollOptionViewModel<OptID>(model) {
+            override fun vote() = this@PollViewModel.vote(id)
+        }
 
     protected class ChildList<TId>(
         input: Collection<PollOptionModel<TId>>,
