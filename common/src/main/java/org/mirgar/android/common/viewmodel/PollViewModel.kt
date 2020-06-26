@@ -42,7 +42,7 @@ abstract class PollViewModel<TId, TOptId> : ViewModel() {
     ) : AbstractList<PollOptionViewModel<TId>>() {
         private val _input by lazy { input.tryMatchAsListOrConvert() }
         private val _results by lazy { SparseArray<PollOptionViewModel<TId>>(input.size) }
-        private val _sum by lazy { input.map { it.votes.toDouble() }.sum() }
+        private val _sum by lazy { input.asSequence().map { it.votes.toDouble() }.sum() }
 
         private val _viewModelFactory = if (shouldNormalize) {
             { viewModelFactory(it.normalizeBy(_sum)) }
