@@ -10,8 +10,8 @@ import org.mirgar.android.common.data.tryMatchAsListOrConvert
 import org.mirgar.android.common.model.PollModel
 import org.mirgar.android.common.model.PollOptionModel
 
-abstract class PollViewModel<ID, OptID> : ViewModel() {
-    abstract val id: ID
+abstract class PollViewModel<TId, TOptId> : ViewModel() {
+    abstract val id: TId
     val name by lazy { model.map { it.name } }
     val showResults by lazy { model.map { it.showResults } }
     val canVote by lazy { model.map { it.canVote } }
@@ -20,19 +20,18 @@ abstract class PollViewModel<ID, OptID> : ViewModel() {
     var lazyNormalize = true
 
     protected open val shouldNormalize
-        get() =
-            normalize && (!lazyNormalize || showResults.value == true)
+        get() = normalize && (!lazyNormalize || showResults.value == true)
 
-    val options by lazy<LiveData<List<PollOptionViewModel<OptID>>>> {
+    val options by lazy<LiveData<List<PollOptionViewModel<TOptId>>>> {
         model.map { ChildList(it.optionModels, ::childViewModelFactory, shouldNormalize) }
     }
 
-    protected abstract val model: LiveData<PollModel<OptID>>
+    protected abstract val model: LiveData<PollModel<TOptId>>
 
     abstract fun update()
-    abstract fun vote(optionId: OptID)
-    protected open fun childViewModelFactory(model: PollOptionModel<OptID>) =
-        object : PollOptionViewModel<OptID>(model) {
+    abstract fun vote(optionId: TOptId)
+    protected open fun childViewModelFactory(model: PollOptionModel<TOptId>) =
+        object : PollOptionViewModel<TOptId>(model) {
             override fun vote() = this@PollViewModel.vote(id)
         }
 
@@ -57,14 +56,14 @@ abstract class PollViewModel<ID, OptID> : ViewModel() {
     }
 }
 
-abstract class PollOptionViewModel<ID>(private val _model: PollOptionModel<ID>) {
+abstract class PollOptionViewModel<TId>(private val _model: PollOptionModel<TId>) {
     val id = _model.id
     val name = _model.name
     val votes = _model.votes
 
     abstract fun vote()
 
-    open fun isSame(other: PollOptionViewModel<ID>) = id == other.id
+    open fun isSame(other: PollOptionViewModel<TId>) = id == other.id
     override fun equals(other: Any?) = _model == other
     override fun hashCode() = _model.hashCode()
 }

@@ -12,10 +12,10 @@ import org.mirgar.android.common.adapters.PollAdapter
 import org.mirgar.android.common.viewmodel.PollViewModel
 import org.mirgar.android.common.databinding.FragmentPollBinding as Binding
 
-abstract class PollFragment<out ID, OptID> : Fragment() {
+abstract class PollFragment<out TId, TOptId> : Fragment() {
     protected abstract val viewModelFactory: ViewModelProvider.Factory
 
-    private val _viewModel by viewModels<PollViewModel<ID, OptID>> { viewModelFactory }
+    private val _viewModel by viewModels<PollViewModel<TId, TOptId>> { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
