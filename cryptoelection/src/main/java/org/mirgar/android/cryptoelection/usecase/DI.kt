@@ -10,4 +10,7 @@ fun Kodein.Builder.bindUseCases() {
         CreateParticipantUseCaseImpl(instance(), instance(tag = "application"), instance())
     }
     bind<LoginUseCase>() with provider { LoginUseCaseImpl(instance()) }
+    bind<GetSuggestedElectionsUseCase>() with provider {
+        GetSuggestedElectionsUseCaseImpl(instance(tag = "application"), instance())
+    }
 }
