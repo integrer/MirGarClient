@@ -18,7 +18,7 @@ internal class LoginUseCaseImpl(private val sharedPreferencesManager: SharedPref
     LoginUseCase() {
     private fun validateKey() {
         val regex = Regex("[0-9a-f]*", RegexOption.IGNORE_CASE)
-        if (!regex.matches(secretKey) || secretKey.length != SECRET_KEY_LENGTH)
+        if (!regex.matches(secretKey) || secretKey.length != SECRET_KEY_LENGTH * 2)
             throw CommonFailure.MalformedKey()
     }
 
