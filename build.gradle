@@ -9,7 +9,7 @@ buildscript {
             constraint_layout: '2.0.0-beta7',
             fragment: '1.2.5',
             legacy: '1.0.0',
-            navigation: '2.2.2',
+            navigation: '2.3.0',
             lifecycle: '2.2.0',
             recycler_view: '1.1.0',
             room: '2.2.5',
