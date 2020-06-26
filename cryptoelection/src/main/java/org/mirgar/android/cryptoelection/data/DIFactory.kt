@@ -7,6 +7,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import org.mirgar.android.cryptoelection.net.RestClient.Companion.bindRestClient
 
 import org.mirgar.android.cryptoelection.usecase.bindUseCases
 import org.mirgar.android.cryptoelection.viewmodel.bindViewModels
@@ -17,6 +18,7 @@ internal object DIFactory {
 
         bindDataFeatures()
         bindExonum()
+        bindRestClient()
 
         bindUseCases()
         bindViewModels()

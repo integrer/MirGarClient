@@ -98,6 +98,12 @@ dependencies {
     implementation "org.kodein.di:kodein-di-generic-jvm:$rootProject.kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$rootProject.kodein_version"
 
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_ver"
+    implementation "com.squareup.retrofit2:converter-jackson:$rootProject.retrofit_ver"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind:$rootProject.jackson_ver"
+
     // exonum
     implementation 'com.exonum.client:exonum-light-client:0.6.0'
 
