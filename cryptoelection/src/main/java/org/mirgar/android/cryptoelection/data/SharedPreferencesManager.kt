@@ -2,9 +2,10 @@ package org.mirgar.android.cryptoelection.data
 
 import android.content.Context
 import androidx.core.content.edit
+import com.exonum.binding.common.crypto.PrivateKey
 
 interface SharedPreferencesManager {
-    var privateKey: ByteArray?
+    var privateKey: PrivateKey?
 
     val hasPrivateKey: Boolean
 }
@@ -14,19 +15,20 @@ class SharedPreferencesManagerImpl(private val context: Context) : SharedPrefere
         context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     }
 
-    override var privateKey: ByteArray?
-        get() = authPreferences.getString("privateKey", null)?.let(Converter::toBytes)
-        set(value) {
-            authPreferences.edit(commit = true) {
-                value?.let { putString("privateKey", fromBytes(it)) } ?: remove("privateKey")
-            }
+    override var privateKey: PrivateKey?
+        get() = authPreferences.getString("privateKey", null)?.let(Converter::toPublicKey)
+        set(value) = authPreferences.edit(commit = true) {
+            value?.let { putString("privateKey", from(it)) } ?: remove("privateKey")
         }
 
     override val hasPrivateKey: Boolean
         get() = authPreferences.getString("privateKey", null) != null
 
     private companion object Converter {
-        fun fromBytes(bytes: ByteArray) = String(bytes, Charsets.ISO_8859_1)
-        fun toBytes(byteString: String) = byteString.toByteArray(Charsets.ISO_8859_1)
+        private val charset = Charsets.ISO_8859_1
+        fun from(value: PrivateKey) = fromBytes(value.toBytes())
+        fun toPublicKey(byteString: String) = PrivateKey.fromBytes(toBytes(byteString))
+        fun fromBytes(bytes: ByteArray) = String(bytes, charset)
+        fun toBytes(byteString: String) = byteString.toByteArray(charset)
     }
 }

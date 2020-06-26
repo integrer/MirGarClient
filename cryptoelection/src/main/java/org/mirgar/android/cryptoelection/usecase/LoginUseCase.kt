@@ -26,6 +26,6 @@ internal class LoginUseCaseImpl(private val sharedPreferencesManager: SharedPref
         validateKey()
         // TODO: Check for participant existence
         sharedPreferencesManager.privateKey =
-            PrivateKey.fromHexString(secretKey.toLowerCase(Locale.ROOT)).toBytes()
+            PrivateKey.fromHexString(secretKey.toLowerCase(Locale.ROOT))
     }
 }
