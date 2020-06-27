@@ -2,17 +2,14 @@ package org.mirgar.android.cryptoelection.usecase
 
 import android.content.Context
 import com.exonum.binding.common.crypto.CryptoFunction
-import com.exonum.binding.common.crypto.CryptoFunctions
 import com.exonum.binding.common.crypto.KeyPair
-import com.exonum.client.ExonumClient
 import com.google.protobuf.MessageLite
-import org.mirgar.android.cryptoelection.data.*
+import org.mirgar.android.cryptoelection.data.CryptoelectionTransaction
+import org.mirgar.android.cryptoelection.data.ExonumKit
 import org.mirgar.android.cryptoelection.data.ProtobufMessageFactory
 import org.mirgar.android.cryptoelection.failure.CryptoelectionFailure
-import org.mirgar.android.cryptoelection.failure.GeneralExonumErrorResolver
-import org.mirgar.android.cryptoelection.failure.TransactionFailure
 import org.mirgar.android.cryptoelection.model.CreateParticipant
-import kotlin.time.times
+import org.mirgar.android.cryptoelection.operations.OperationResult
 
 abstract class CreateParticipantUseCase : TransactionUseCase() {
     lateinit var model: CreateParticipant
@@ -38,15 +35,16 @@ class CreateParticipantUseCaseImpl(
 
     private val attempts = 5
 
-    override suspend fun run() {
+    override suspend fun run(): OperationResult.Registered {
         refreshKeys()
         for (i in 0 until attempts) {
             try {
-                super.run()
-                return
+                submitWithCheck()
+                break
             } catch (f: CryptoelectionFailure.ParticipantAlreadyExists) {
                 if (i < attempts - 1) refreshKeys() else throw f
             }
         }
+        return OperationResult.Registered(keys.privateKey.toString())
     }
 }

@@ -2,12 +2,14 @@ package org.mirgar.android.cryptoelection.viewmodel
 
 import android.util.Patterns.EMAIL_ADDRESS
 import android.util.Patterns.PHONE
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import org.mirgar.android.common.viewmodel.MessagingViewModel
 import org.mirgar.android.cryptoelection.model.CreateParticipant
 import org.mirgar.android.cryptoelection.operations.BaseOperationHandler
-import org.mirgar.android.cryptoelection.operations.OperationResult
 import org.mirgar.android.cryptoelection.usecase.CreateParticipantUseCase
 import java.util.regex.Pattern
 
@@ -85,9 +87,6 @@ class RegistrationViewModel(
         if (hasErrors) return
         useCase.model = model.value ?: throw IllegalStateException("Model must be initialized")
 
-        operationHandler.withHandler(Dispatchers.IO) {
-            useCase()
-            OperationResult.Registered(useCase.keys.privateKey.toString())
-        }
+        operationHandler.withHandler(Dispatchers.IO) { useCase() }
     }
 }

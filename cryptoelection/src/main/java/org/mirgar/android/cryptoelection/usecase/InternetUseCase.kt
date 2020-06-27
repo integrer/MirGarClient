@@ -7,7 +7,7 @@ import android.net.NetworkCapabilities
 import androidx.core.content.ContextCompat
 import org.mirgar.android.cryptoelection.failure.CommonFailure
 import org.mirgar.android.cryptoelection.failure.PermissionFailure
-import java.lang.RuntimeException
+import org.mirgar.android.cryptoelection.operations.OperationResult
 import java.net.ConnectException
 
 abstract class InternetUseCase : AsyncUseCase {
@@ -49,14 +49,14 @@ abstract class InternetUseCase : AsyncUseCase {
         if (!hasConnection) throw CommonFailure.NoInternetConnection()
     }
 
-    protected abstract suspend fun run()
+    protected abstract suspend fun run(): OperationResult
 
-    override suspend operator fun invoke() {
+    override suspend operator fun invoke(): OperationResult {
         try {
             checkAccessNetworkStatePermission()
             checkInternetPermission()
             checkInternetConnection()
-            run()
+            return run()
         } catch (ex: RuntimeException) {
             when (val cause = ex.cause) {
                 is ConnectException -> {

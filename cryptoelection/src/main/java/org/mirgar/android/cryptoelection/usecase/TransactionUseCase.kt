@@ -9,11 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.mirgar.android.cryptoelection.data.CryptoelectionTransaction
 import org.mirgar.android.cryptoelection.data.ExonumKit
-import org.mirgar.android.cryptoelection.failure.CommonFailure
 import org.mirgar.android.cryptoelection.failure.GeneralExonumErrorResolver
 import org.mirgar.android.cryptoelection.failure.TransactionFailure
-import java.lang.RuntimeException
-import java.net.ConnectException
 
 abstract class TransactionUseCase : InternetUseCase() {
     protected abstract val exonumKit: ExonumKit
@@ -23,7 +20,7 @@ abstract class TransactionUseCase : InternetUseCase() {
         get() = exonumKit.servicesConfiguration.cryptoelectionServiceInfo.require()
 
     protected abstract val payload: com.google.protobuf.MessageLite
-    abstract val keys: KeyPair
+    protected abstract val keys: KeyPair
 
     protected open val errorResolver: GeneralExonumErrorResolver =
         GeneralExonumErrorResolver.Default
@@ -67,7 +64,7 @@ abstract class TransactionUseCase : InternetUseCase() {
     var lastTransactionHash: HashCode? = null
         protected set
 
-    override suspend fun run() {
+    suspend fun submitWithCheck() {
         try {
             val hash = submitTransaction(transaction)
             checkTransactionFinished(hash)

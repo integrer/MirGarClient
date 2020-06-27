@@ -4,6 +4,7 @@ import com.exonum.binding.common.crypto.PrivateKey
 
 import org.mirgar.android.cryptoelection.data.SharedPreferencesManager
 import org.mirgar.android.cryptoelection.failure.CommonFailure
+import org.mirgar.android.cryptoelection.operations.OperationResult
 import java.util.*
 
 abstract class LoginUseCase : UseCase {
@@ -22,10 +23,11 @@ internal class LoginUseCaseImpl(private val sharedPreferencesManager: SharedPref
             throw CommonFailure.MalformedKey()
     }
 
-    override fun invoke() {
+    override fun invoke(): OperationResult.LoggedIn {
         validateKey()
         // TODO: Check for participant existence
         sharedPreferencesManager.privateKey =
             PrivateKey.fromHexString(secretKey.toLowerCase(Locale.ROOT))
+        return OperationResult.LoggedIn
     }
 }
