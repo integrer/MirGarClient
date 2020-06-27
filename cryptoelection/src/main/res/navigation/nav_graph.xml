@@ -12,10 +12,20 @@
         tools:layout="@layout/fragment_election_list" />
 
     <fragment
+        android:id="@+id/dst_election"
+        android:name="org.mirgar.android.cryptoelection.ui.ElectionFragment"
+        android:label="@string/elction"
+        tools:layout="@layout/fragment_poll">
+        <argument
+            android:name="address"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/dst_authorization"
         android:name="org.mirgar.android.cryptoelection.ui.AuthorizationFragment"
         android:label="@string/title_authorization"
-        tools:layout="@layout/fragment_authorization" >
+        tools:layout="@layout/fragment_authorization">
         <action
             android:id="@+id/action_dst_authorization_to_dst_elections_list"
             app:destination="@id/dst_elections_list" />
