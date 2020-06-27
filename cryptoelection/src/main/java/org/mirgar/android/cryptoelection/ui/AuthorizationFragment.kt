@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -76,8 +77,9 @@ class AuthorizationFragment : Fragment(), KodeinAware {
 
         override fun handleResult(result: OperationResult) {
             if (result is OperationResult.SignedIn) {
-                // TODO: Navigate to elections list
                 Log.i("Auth", "OK")
+                val dst = AuthorizationFragmentDirections.actionDstAuthorizationToDstElectionsList()
+                findNavController().navigate(dst)
             } else super.handleResult(result)
         }
 
