@@ -29,5 +29,6 @@ internal object DIFactory {
             SharedPreferencesManagerImpl(instance(tag = "application"))
         }
         bind<Repository>() with provider { RepositoryImpl(instance()) }
+        bind<ElectionsStorage>() with singleton { ElectionsStorage() }
     }
 }

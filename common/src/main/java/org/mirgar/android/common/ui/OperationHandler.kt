@@ -2,9 +2,9 @@ package org.mirgar.android.common.ui
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.reflect.KClass
 
 abstract class OperationHandler<TResult, TException: Throwable> {
@@ -23,7 +23,7 @@ abstract class OperationHandler<TResult, TException: Throwable> {
     abstract fun getScope(): CoroutineScope
 
     inline fun withHandler(
-        context: CoroutineContext = EmptyCoroutineContext,
+        context: CoroutineContext = Dispatchers.IO,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         crossinline operation: suspend CoroutineScope.() -> TResult
     ) {

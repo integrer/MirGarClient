@@ -36,10 +36,12 @@ class Election {
 
     lateinit var options: List<ElectionOption>
 
-    @delegate:JsonProperty("is_cancelled")
+    @get:JsonProperty("is_cancelled")
+    @set:JsonProperty("is_cancelled")
     var isCancelled by Delegates.notNull<Boolean>()
 
-    @delegate:JsonProperty("is_voted_yet")
+    @get:JsonProperty("is_voted_yet")
+    @set:JsonProperty("is_voted_yet")
     var isVotedYet by Delegates.notNull<Boolean>()
 
     val showResults get() = isVotedYet
@@ -54,10 +56,10 @@ class Election {
 class ElectionOption {
     var id by Delegates.notNull<Int>()
 
-    lateinit var name: String
+    lateinit var title: String
 
     @JsonProperty("votes_count")
     var votesCount: Int? = null
 
-    fun toLocal() = PollOptionModel(id, name, votesCount ?: 0)
+    fun toLocal() = PollOptionModel(id, title, votesCount ?: 0)
 }

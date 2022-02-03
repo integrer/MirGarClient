@@ -1,6 +1,7 @@
 package org.mirgar.android.cryptoelection.viewmodel
 
-import androidx.annotation.MainThread
+import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -27,10 +28,12 @@ class KodeinVMFactoryWithArgs<A>(
     }
 }
 
-@MainThread
 inline fun <reified VM : ViewModel, T> T.viewModels(): Lazy<VM> where T : Fragment, T : KodeinAware =
     viewModels(factoryProducer = ::kodeinVMFactory)
 
-fun <T : KodeinAware> T.kodeinVMFactory() = KodeinVMFactory(direct)
-inline fun <T : KodeinAware, reified A> T.kodeinVMFactory(args: A) =
+inline fun <reified VM : ViewModel, T> T.viewModels(): Lazy<VM> where T : ComponentActivity, T : KodeinAware =
+    viewModels(::kodeinVMFactory)
+
+fun KodeinAware.kodeinVMFactory() = KodeinVMFactory(direct)
+inline fun <reified A> KodeinAware.kodeinVMFactory(args: A) =
     KodeinVMFactoryWithArgs.new(direct, args)

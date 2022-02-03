@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="sign_in">Войти</string>
+    <string name="private_key">Секретный ключ</string>
+    <string name="name">Логин</string>
+    <string name="email">Эл. почта</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="field_required">Поле является обязательным</string>
+    <string name="invalid_email">Неверный адрес электронной почты</string>
+    <string name="invalid_phone">Неверный номер телефона</string>
+    <string name="title_elections_list">Опросы</string>
+    <string name="title_authorization">Авторизация</string>
+    <string name="pass_code">Код паспорта</string>
+    <string name="successful_register">Сохраните секретный ключ в безопасном месте. Он потребуется для авторизации в следующий раз.</string>
+    <string name="secret_key">Секретный ключ:</string>
+    <string name="elction">Опрос</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="not_found">Ресурс не найден</string>
+    <string name="logout">Выйти</string>
+    <string name="residence">Район</string>
+</resources>

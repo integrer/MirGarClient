@@ -9,6 +9,7 @@ import androidx.lifecycle.map
 import org.mirgar.android.common.data.tryMatchAsListOrConvert
 import org.mirgar.android.common.model.PollModel
 import org.mirgar.android.common.model.PollOptionModel
+import kotlin.math.roundToInt
 
 abstract class PollViewModel<TId, TOptId> : ViewModel() {
     abstract val id: TId
@@ -32,7 +33,9 @@ abstract class PollViewModel<TId, TOptId> : ViewModel() {
     abstract fun vote(optionId: TOptId)
     protected open fun childViewModelFactory(model: PollOptionModel<TOptId>) =
         object : PollOptionViewModel<TOptId>(model) {
-            override fun vote() = this@PollViewModel.vote(id)
+            override fun vote() {
+                if (canVote.value ?: throw IllegalStateException()) this@PollViewModel.vote(id)
+            }
         }
 
     protected class ChildList<TId>(
@@ -60,6 +63,10 @@ abstract class PollOptionViewModel<TId>(private val _model: PollOptionModel<TId>
     val id = _model.id
     val name = _model.name
     val votes = _model.votes
+
+    val readablePart
+        get() = if (_model.isNormalized) "${(votes.toDouble() * 100.0).roundToInt()} %"
+        else votes.toString()
 
     abstract fun vote()
 

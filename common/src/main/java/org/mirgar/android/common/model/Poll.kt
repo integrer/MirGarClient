@@ -10,7 +10,8 @@ data class PollModel<TOptId>(
 data class PollOptionModel<TId>(
     val id: TId,
     val name: CharSequence,
-    val votes: Number
+    val votes: Number,
+    val isNormalized: Boolean = false
 ) {
-    fun normalizeBy(total: Double) = PollOptionModel(id, name, votes.toDouble() / total)
+    fun normalizeBy(total: Double) = PollOptionModel(id, name, votes.toDouble() / total, true)
 }

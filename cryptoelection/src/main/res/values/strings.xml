@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Crypto Election</string>
+    <string name="app_name" translatable="false">Crypto Election</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
     <string name="private_key">Private Key</string>
@@ -15,4 +15,8 @@
     <string name="successful_register">Save the secret key in a safe place. You will need it to log in to the demo next time.</string>
     <string name="secret_key">Secret key:</string>
     <string name="elction">Election</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="not_found">Resouce not found</string>
+    <string name="logout">Logout</string>
+    <string name="residence">Residence</string>
 </resources>

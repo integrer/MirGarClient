@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import kotlinx.coroutines.Dispatchers
 import org.mirgar.android.common.viewmodel.MessagingViewModel
 import org.mirgar.android.cryptoelection.model.CreateParticipant
 import org.mirgar.android.cryptoelection.operations.BaseOperationHandler
@@ -87,6 +86,6 @@ class RegistrationViewModel(
         if (hasErrors) return
         useCase.model = model.value ?: throw IllegalStateException("Model must be initialized")
 
-        operationHandler.withHandler(Dispatchers.IO) { useCase() }
+        operationHandler.withHandler { useCase() }
     }
 }

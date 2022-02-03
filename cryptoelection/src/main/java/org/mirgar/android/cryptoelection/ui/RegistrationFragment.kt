@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -21,9 +22,9 @@ import org.mirgar.android.cryptoelection.operations.BaseOperationHandler
 import org.mirgar.android.cryptoelection.operations.DelegatedOperationHandler
 import org.mirgar.android.cryptoelection.operations.OperationResult
 import org.mirgar.android.cryptoelection.viewmodel.AuthorizationViewModel
-import org.mirgar.android.cryptoelection.viewmodel.kodeinVMFactory
 import org.mirgar.android.cryptoelection.viewmodel.RegistrationViewModel
 import org.mirgar.android.cryptoelection.viewmodel.RegistrationViewModel.ValidationError
+import org.mirgar.android.cryptoelection.viewmodel.kodeinVMFactory
 import org.mirgar.android.cryptoelection.databinding.FragmentRegistrationBinding as Binding
 
 class RegistrationFragment : Fragment(), KodeinAware {
@@ -74,12 +75,14 @@ class RegistrationFragment : Fragment(), KodeinAware {
 
         override fun handleResult(result: OperationResult) {
             if (result is OperationResult.Registered) {
-                RegisteredDialog(
-                    result.secretKey,
-                    { authorizationViewModel.login(result.secretKey) },
-                    requireContext(),
-                    layoutInflater
-                ).show()
+                getScope().launch {
+                    RegisteredDialog(
+                        result.secretKey,
+                        { authorizationViewModel.login(result.secretKey) },
+                        requireContext(),
+                        layoutInflater
+                    ).show()
+                }
             } else super.handleResult(result)
         }
 

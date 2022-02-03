@@ -57,6 +57,14 @@ abstract class InternetUseCase : AsyncUseCase {
             checkInternetPermission()
             checkInternetConnection()
             return run()
+        } catch (ex: retrofit2.HttpException) {
+            when (ex.code()) {
+                400 -> throw CommonFailure.BadRequest
+                404 -> throw CommonFailure.NotFound
+                in 400..500 -> throw CommonFailure.ClientError
+                in 500..Int.MAX_VALUE -> throw CommonFailure.ServerError
+                else -> throw CommonFailure.Unknown(ex)
+            }
         } catch (ex: RuntimeException) {
             when (val cause = ex.cause) {
                 is ConnectException -> {
@@ -64,7 +72,7 @@ abstract class InternetUseCase : AsyncUseCase {
                     val dest = cause.message?.takeIf { it.startsWith(phrase) }?.drop(phrase.length)
                     throw CommonFailure.UnableToConnect(dest)
                 }
-                else -> throw CommonFailure.Unknown()
+                else -> throw CommonFailure.Unknown(cause ?: ex)
             }
         }
     }

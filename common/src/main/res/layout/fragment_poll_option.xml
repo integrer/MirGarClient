@@ -4,7 +4,10 @@
 
     <data>
 
-        <variable name="parentVM" type="org.mirgar.android.common.viewmodel.PollViewModel" />
+        <variable
+            name="showResults"
+            type="androidx.lifecycle.LiveData&lt;Boolean>" />
+
         <variable
             name="thisOption"
             type="org.mirgar.android.common.viewmodel.PollOptionViewModel" />
@@ -13,6 +16,7 @@
     <org.mirgar.android.common.view.MaskedCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_normal"
         app:cardPreventCornerOverlap="false"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.MirGar.Card"
         android:onClick="@{() -> thisOption.vote()}">
@@ -25,7 +29,7 @@
                 android:id="@+id/partView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:isGone="@{!parentVM.showResults}"
+                app:isGone="@{!showResults}"
                 android:weightSum="1.0">
 
                 <ImageView
@@ -34,22 +38,39 @@
                     android:layout_gravity="start"
                     android:layout_weight="0."
                     app:scale="@{thisOption.votes}"
-                    app:scaleIf="@{parentVM.showResults}"
+                    app:scaleIf="@{showResults}"
                     android:src="@drawable/rectangle_rounded_all"
                     android:contentDescription="@string/part_of_votes" />
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/text_margin"
-                android:text="@{thisOption.name}"
-                android:theme="@style/AppTheme"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_part"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="@{thisOption.readablePart}"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:theme="@style/AppTheme"
+                    app:isGone="@{!showResults}" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_margin"
+                    android:layout_weight="1."
+                    android:text="@{thisOption.name}"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:theme="@style/AppTheme"
+                    app:scale="@{1.0}"
+                    app:scaleIf="@{!showResults}" />
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </org.mirgar.android.common.view.MaskedCardView>

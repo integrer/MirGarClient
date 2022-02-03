@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="org.mirgar.android.common.viewmodel.PollViewModel" />
+            name="name"
+            type="androidx.lifecycle.LiveData&lt;CharSequence>" />
     </data>
 
     <LinearLayout
@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="@{viewModel.name}"
+            android:text="@{name}"
+            android:theme="@style/AppTheme"
             android:textAppearance="?attr/textAppearanceHeadline5" />
 
         <androidx.recyclerview.widget.RecyclerView

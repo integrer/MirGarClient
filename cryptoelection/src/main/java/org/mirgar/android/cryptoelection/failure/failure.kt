@@ -9,7 +9,11 @@ sealed class CommonFailure : Failure() {
     class NoInternetConnection : CommonFailure()
     class MalformedKey : CommonFailure()
     class UnableToConnect(val destination: String?) : CommonFailure()
-    class Unknown : CommonFailure()
+    class Unknown(override val cause: Throwable? = null) : CommonFailure()
+    object NotFound : CommonFailure()
+    object ServerError : CommonFailure()
+    object BadRequest : CommonFailure()
+    object ClientError : CommonFailure()
 }
 
 sealed class PermissionFailure : Failure() {
