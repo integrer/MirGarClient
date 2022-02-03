@@ -6,7 +6,6 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.3"
 
     buildFeatures {
         dataBinding = true
@@ -15,7 +14,7 @@ android {
     defaultConfig {
         applicationId 'org.mirgar.android.mgclient'
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "0.1.2"
 

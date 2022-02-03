@@ -8,7 +8,6 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.3"
 
     buildFeatures {
         dataBinding = true
@@ -17,7 +16,7 @@ android {
     defaultConfig {
         applicationId "org.mirgar.android.cryptoelection"
         minSdkVersion 26 // Required by 'com.exonum.client'
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "0.1.0"
 
@@ -41,10 +40,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
     packagingOptions {
-        exclude 'META-INF/google/protobuf/type.proto'
+        resources {
+            excludes += ['META-INF/google/protobuf/type.proto']
+        }
     }
+
 
     applicationVariants.all { variant ->
         variant.getRuntimeConfiguration().exclude group: 'com.goterl.lazycode', module: 'lazysodium-java'
